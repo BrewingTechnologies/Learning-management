@@ -138,7 +138,7 @@ const resendOtp = async (req) => {
 const sendOtpForForgotPassword = async (req) => {
   try {
 
-    const user = await StudentsModel.findOne({ _id: req.params.userId });
+    const user = await StudentsModel.findOne({ email: req.payload.email });
     if (!user) {
       return Boom.notFound('User with this email not found');
     }
@@ -155,7 +155,7 @@ const sendOtpForForgotPassword = async (req) => {
     `
     const mailResponse = await sendOTP({ email, subject, text });
     if (mailResponse.accepted) {
-      return StudentsModel.updateOne({ _id: req.params.userId }, { OTP: otp });
+      return StudentsModel.updateOne({ email: req.payload.email }, { OTP: otp });
     }
     return { success: false, message: 'Failed to send an OTP' };
 

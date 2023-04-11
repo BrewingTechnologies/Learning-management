@@ -136,18 +136,15 @@ module.exports = [
   },
   {
     method: 'PUT',
-    path: '/users/forgot-password-otp/{userId}',
+    path: '/users/forgot-password-otp',
     handler: studentController.sendOtpForForgotPassword,
     options: {
-      description: 'Send OTP forgot password',
+      description: 'forgot password OTP',
       tags: ['api', 'users'],
       validate: {
         payload: Joi.object({
           email: Joi.string().required(),
         }),
-        params: Joi.object({
-          userId: Joi.string().required(),
-        })
       }
     },
   },
