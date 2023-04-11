@@ -167,5 +167,18 @@ module.exports = [
       description: 'guest user login',
       tags: ['api', 'users']
     }
+  },
+  {
+    method: 'POST',
+    path: '/users/add-student/admin',
+    handler: studentController.addStudentByAdmin,
+    options: {
+      description: 'Create a student by admin',
+      tags: ['api', 'users'],
+      auth: { strategy: 'default', scope: ['ADMIN'] },
+      validate: {
+        payload: studentJoiSchema
+      }
+    }
   }
 ]

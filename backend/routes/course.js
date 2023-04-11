@@ -140,5 +140,35 @@ module.exports = [
         })
       }
     }
+  },
+  {
+    method: 'PUT',
+    path: '/courses/category',
+    handler: courseControllers.coursesByCategory,
+    options: {
+      description: 'Get all courses by category',
+      tags: ['api', 'course'],
+      auth: { strategy: 'default', scope: ['ADMIN', 'STUDENT'] },
+      validate: {
+        payload: Joi.object({
+          category: Joi.string().required()
+        })
+      }
+    }
+  },
+  {
+    method: 'POST',
+    path: '/courses/category',
+    handler: courseControllers.coursesByCategory,
+    options: {
+      description: 'Get all courses by category',
+      tags: ['api', 'course'],
+      auth: { strategy: 'default', scope: ['ADMIN', 'STUDENT'] },
+      validate: {
+        payload: Joi.object({
+          category: Joi.string().required()
+        })
+      }
+    }
   }
 ]

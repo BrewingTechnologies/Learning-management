@@ -198,6 +198,24 @@ const guestLogin = async (req) => {
   }
 }
 
+const addStudentByAdmin = async (req) => {
+  try {
+    const student = await StudentsModel.findOne({ email: req.payload.email })
+
+    if (student) {
+      return Boom.conflict('Student with this email already exists')
+    }
+
+    if (req.payload.role !== 'STUDENT') {
+      return Boom.notAcceptable('You dont have access to create another user')
+    }
+    return await createStudent({ payload: req.payload })
+  } catch (error) {
+    console.log(error.message)
+    return Boom.badRequest(error.message)
+  }
+}
+
 module.exports = {
-  createStudent, getStudentDetails, updateStudentDetails, deleteStudent, getAllStudents, studentLogin, verifyOtp, resendOtp, sendOtpForForgotPassword, updateNewPassword, guestLogin
+  createStudent, getStudentDetails, updateStudentDetails, deleteStudent, getAllStudents, studentLogin, verifyOtp, resendOtp, sendOtpForForgotPassword, updateNewPassword, guestLogin, addStudentByAdmin
 }

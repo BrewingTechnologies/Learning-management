@@ -85,4 +85,13 @@ const studentEnrolledCourses = async (req) => {
   }
 }
 
-module.exports = { createCourse, courseDetails, getAllCourses, findCourseByInstructor, updateCourseDetails, deleteCourse, courseWishList, studentEnrolledCourses }
+const coursesByCategory = async (req) => {
+  try {
+    return await CoursesModel.find({ category: req.payload.category })
+  } catch (error) {
+    console.log(error.message)
+    return Boom.badRequest(error.message)
+  }
+}
+
+module.exports = { createCourse, courseDetails, getAllCourses, findCourseByInstructor, updateCourseDetails, deleteCourse, courseWishList, studentEnrolledCourses, coursesByCategory }
