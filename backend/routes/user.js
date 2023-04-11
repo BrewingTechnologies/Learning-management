@@ -5,9 +5,6 @@ const studentJoiSchema = Joi.object({
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),
   email: Joi.string().required(),
-  phoneNumber: Joi.string()
-    .pattern(/^\+[1-9]{1}[0-9]{3,14}$/)
-    .required(),
   password: Joi.string().min(6).required(),
   role: Joi.string().valid('STUDENT', 'ADMIN', 'PROFESSOR')
 })
@@ -66,8 +63,6 @@ module.exports = [
           firstName: Joi.string(),
           lastName: Joi.string(),
           email: Joi.string(),
-          phoneNumber: Joi.string()
-            .pattern(/^\+[1-9]{1}[0-9]{3,14}$/),
           password: Joi.string().min(6)
         })
       }
@@ -122,14 +117,14 @@ module.exports = [
   },
   {
     method: 'PUT',
-    path: '/users/resend-otp',
+    path: '/users/resend-otp/{userId}',
     handler: studentController.resendOtp,
     options: {
       description: 'Re-send OTP',
       tags: ['api', 'users'],
       validate: {
-        payload: Joi.object({
-          email: Joi.string().required()
+        params: Joi.object({
+          userId: Joi.string().required()
         })
       }
     }

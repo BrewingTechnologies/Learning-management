@@ -8,6 +8,12 @@ const { sendOTP } = require('../utils/notification')
 
 const createStudent = async (req) => {
   try {
+    const existingUser = await StudentsModel.findOne({ email: req.payload.email })
+
+    if (existingUser && !existingUser.verified) {
+      return { success: true, message: 'User with this email already exists', userId: existingUser._id }
+    }
+
     const user = new StudentsModel(req.payload)
     const encryptedPassword = await bcrypt.hash(req.payload.password, 10)
     user.password = encryptedPassword
@@ -90,9 +96,13 @@ const verifyOtp = async (req) => {
     }
     user = JSON.parse(JSON.stringify(user))
     if (user.OTP === req.payload.OTP) {
-      await StudentsModel.updateOne({ _id: req.params.studentId }, { verified: true })
+      if (user.verified) {
+        return Boom.notAcceptable('You are already verified your OTP')
+      }
+      await StudentsModel.updateOne({ _id: req.params.userId }, { verified: true })
       return { success: true, message: 'OTP Verified successfully' }
     }
+
     return Boom.notAcceptable('Invalid OTP, Please enter valid OTP to continue..!')
   } catch (error) {
     console.log(error.message)
@@ -103,9 +113,9 @@ const verifyOtp = async (req) => {
 const resendOtp = async (req) => {
   try {
     let user
-    user = await StudentsModel.findOne({ email: req.payload.email })
+    user = await StudentsModel.findOne({ _id: req.params.userId })
     if (user.verified === true) {
-      const err = Boom.conflict('User with this email already registered.!')
+      const err = Boom.conflict('User with this email already verified.!')
       err.output.payload.status = user.verified
       return err
     }
