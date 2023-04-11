@@ -135,6 +135,54 @@ const resendOtp = async (req) => {
 };
 
 
+const sendOtpForForgotPassword = async (req) => {
+  try {
+
+    const user = await StudentsModel.findOne({ _id: req.params.userId });
+    if (!user) {
+      return Boom.notFound('User with this email not found');
+    }
+
+    const otp = randomOtp();
+
+    const { email } = req.payload;
+
+    const subject = `VERIFY YOUR OTP`;
+
+    const text = `
+    Please verify your one time password(OTP).
+    Your OTP is : ${otp}. Do not share with anyone.
+    `
+    const mailResponse = await sendOTP({ email, subject, text });
+    if (mailResponse.accepted) {
+      return StudentsModel.updateOne({ _id: req.params.userId }, { OTP: otp });
+    }
+    return { success: false, message: 'Failed to send an OTP' };
+
+  } catch (error) {
+    console.log(error.message);
+    return Boom.badRequest(error.message);
+  }
+}
+
+const updateNewPassword = async (req) => {
+  try {
+    const user = await StudentsModel.findOne({ email: req.payload.email });
+    if (!user) {
+      return Boom.notFound('User with this email not found');
+    }
+
+    if (user.OTP === req.payload.OTP) {
+      const encryptedPassword = await bcrypt.hash(req.payload.password, 10);
+      return await StudentsModel.updateOne({ _id: user._id }, { password: encryptedPassword });
+    }
+    return { success: false, message: 'Invalid OTP , Please enter valid OTP.' }
+  } catch (error) {
+    console.log(error.message);
+    return Boom.badRequest(error.message);
+  }
+}
+
 module.exports = {
-  createStudent, getStudentDetails, updateStudentDetails, deleteStudent, getAllStudents, studentLogin, verifyOtp, resendOtp
+  createStudent, getStudentDetails, updateStudentDetails, deleteStudent, getAllStudents, studentLogin, verifyOtp, resendOtp, sendOtpForForgotPassword, updateNewPassword
 };

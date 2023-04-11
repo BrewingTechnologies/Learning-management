@@ -134,4 +134,37 @@ module.exports = [
       }
     },
   },
+  {
+    method: 'PUT',
+    path: '/users/forgot-password-otp/{userId}',
+    handler: studentController.sendOtpForForgotPassword,
+    options: {
+      description: 'Send OTP forgot password',
+      tags: ['api', 'users'],
+      validate: {
+        payload: Joi.object({
+          email: Joi.string().required(),
+        }),
+        params: Joi.object({
+          userId: Joi.string().required(),
+        })
+      }
+    },
+  },
+  {
+    method: 'PUT',
+    path: '/users/update-password',
+    handler: studentController.updateNewPassword,
+    options: {
+      description: 'update new password',
+      tags: ['api', 'users'],
+      validate: {
+        payload: Joi.object({
+          email: Joi.string().required(),
+          password: Joi.string().required(),
+          OTP: Joi.number().required(),
+        }),
+      }
+    },
+  },
 ];
