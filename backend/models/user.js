@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
-const { Schema } = mongoose;
+const { Schema } = mongoose
 
 const studentSchema = new Schema({
   firstName: String,
@@ -12,8 +12,8 @@ const studentSchema = new Schema({
   verified: Boolean,
   role: {
     type: String,
-    enum: ['STUDENT', 'ADMIN', 'PROFESSOR'],
-  },
-});
+    enum: ['STUDENT', 'ADMIN', 'PROFESSOR']
+  }
+})
 
-module.exports = mongoose.model('student', studentSchema);
+module.exports = mongoose.model('student', studentSchema)

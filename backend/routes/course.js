@@ -1,7 +1,6 @@
-const Joi = require('joi');
+const Joi = require('joi')
 
-const courseControllers = require('../controllers/course');
-
+const courseControllers = require('../controllers/course')
 
 const courseJoiSchema = Joi.object({
   name: Joi.string().required(),
@@ -13,8 +12,8 @@ const courseJoiSchema = Joi.object({
   bookmark: Joi.bool().default(false),
   startDate: Joi.date().required(),
   endDate: Joi.date().required(),
-  isEnrolled: Joi.boolean().valid(true, false),
-});
+  isEnrolled: Joi.boolean().valid(true, false)
+})
 
 module.exports = [
   {
@@ -26,9 +25,9 @@ module.exports = [
       tags: ['api', 'course'],
       auth: { strategy: 'default', scope: ['ADMIN', 'PROFESSOR'] },
       validate: {
-        payload: courseJoiSchema,
-      },
-    },
+        payload: courseJoiSchema
+      }
+    }
   },
   {
     method: 'GET',
@@ -40,10 +39,10 @@ module.exports = [
       auth: { strategy: 'default', scope: ['ADMIN', 'PROFESSOR'] },
       validate: {
         params: Joi.object({
-          courseId: Joi.string().required(),
-        }),
-      },
-    },
+          courseId: Joi.string().required()
+        })
+      }
+    }
   },
   {
     method: 'GET',
@@ -52,8 +51,8 @@ module.exports = [
     options: {
       description: 'Get all courses',
       tags: ['api', 'course'],
-      auth: { strategy: 'default', scope: ['ADMIN'] },
-    },
+      auth: { strategy: 'default', scope: ['ADMIN'] }
+    }
   },
   {
     method: 'GET',
@@ -65,10 +64,10 @@ module.exports = [
       auth: { strategy: 'default', scope: ['ADMIN', 'STUDENT'] },
       validate: {
         params: Joi.object({
-          name: Joi.string().required(),
-        }),
-      },
-    },
+          name: Joi.string().required()
+        })
+      }
+    }
   },
   {
     method: 'PUT',
@@ -80,7 +79,7 @@ module.exports = [
       auth: { strategy: 'default', scope: ['ADMIN', 'PROFESSOR'] },
       validate: {
         params: Joi.object({
-          courseId: Joi.string().required(),
+          courseId: Joi.string().required()
         }),
         payload: Joi.object({
           name: Joi.string(),
@@ -92,10 +91,10 @@ module.exports = [
           bookmark: Joi.bool().default(false),
           startDate: Joi.date(),
           endDate: Joi.date(),
-          isEnrolled: Joi.boolean().valid(true, false),
+          isEnrolled: Joi.boolean().valid(true, false)
         })
-      },
-    },
+      }
+    }
   },
   {
     method: 'DELETE',
@@ -107,10 +106,10 @@ module.exports = [
       auth: { strategy: 'default', scope: ['ADMIN', 'PROFESSOR'] },
       validate: {
         params: Joi.object({
-          courseId: Joi.string().required(),
-        }),
-      },
-    },
+          courseId: Joi.string().required()
+        })
+      }
+    }
   },
   {
     method: 'GET',
@@ -122,10 +121,10 @@ module.exports = [
       auth: { strategy: 'default', scope: ['STUDENT'] },
       validate: {
         params: Joi.object({
-          userId: Joi.string().required(),
-        }),
-      },
-    },
+          userId: Joi.string().required()
+        })
+      }
+    }
   },
   {
     method: 'GET',
@@ -137,9 +136,9 @@ module.exports = [
       auth: { strategy: 'default', scope: ['STUDENT'] },
       validate: {
         params: Joi.object({
-          userId: Joi.string().required(),
-        }),
-      },
-    },
-  },
-];
+          userId: Joi.string().required()
+        })
+      }
+    }
+  }
+]

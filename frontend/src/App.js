@@ -1,11 +1,10 @@
-import React from 'react'
+import React from "react";
+import User from "./components/user";
 
 const App = () => {
-  return (
-    <div>
-      <h1>Hello LMS</h1>
-    </div>
-  )
-}
+  return <div>
+    <User />
+  </div>;
+};
 
 export default App;

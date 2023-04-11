@@ -1,5 +1,5 @@
-const Joi = require('joi');
-const studentController = require('../controllers/user');
+const Joi = require('joi')
+const studentController = require('../controllers/user')
 
 const studentJoiSchema = Joi.object({
   firstName: Joi.string().required(),
@@ -9,8 +9,8 @@ const studentJoiSchema = Joi.object({
     .pattern(/^\+[1-9]{1}[0-9]{3,14}$/)
     .required(),
   password: Joi.string().min(6).required(),
-  role: Joi.string().valid('STUDENT', 'ADMIN', 'PROFESSOR'),
-});
+  role: Joi.string().valid('STUDENT', 'ADMIN', 'PROFESSOR')
+})
 
 module.exports = [
   {
@@ -21,9 +21,9 @@ module.exports = [
       description: 'Create a user based on role',
       tags: ['api', 'users'],
       validate: {
-        payload: studentJoiSchema,
-      },
-    },
+        payload: studentJoiSchema
+      }
+    }
   },
   {
     method: 'GET',
@@ -35,10 +35,10 @@ module.exports = [
       auth: { strategy: 'default', scope: ['ADMIN', 'STUDENT', 'PROFESSOR'] },
       validate: {
         params: Joi.object({
-          userId: Joi.string().required(),
-        }),
-      },
-    },
+          userId: Joi.string().required()
+        })
+      }
+    }
   },
   {
     method: 'GET',
@@ -47,8 +47,8 @@ module.exports = [
     options: {
       description: 'Get all users details',
       tags: ['api', 'users'],
-      auth: { strategy: 'default', scope: ['ADMIN'] },
-    },
+      auth: { strategy: 'default', scope: ['ADMIN'] }
+    }
   },
   {
     method: 'PUT',
@@ -60,7 +60,7 @@ module.exports = [
       auth: { strategy: 'default', scope: ['ADMIN', 'STUDENT', 'PROFESSOR'] },
       validate: {
         params: Joi.object({
-          userId: Joi.string().required(),
+          userId: Joi.string().required()
         }),
         payload: Joi.object({
           firstName: Joi.string(),
@@ -68,10 +68,10 @@ module.exports = [
           email: Joi.string(),
           phoneNumber: Joi.string()
             .pattern(/^\+[1-9]{1}[0-9]{3,14}$/),
-          password: Joi.string().min(6),
-        }),
-      },
-    },
+          password: Joi.string().min(6)
+        })
+      }
+    }
   },
   {
     method: 'DELETE',
@@ -83,10 +83,10 @@ module.exports = [
       auth: { strategy: 'default', scope: ['ADMIN'] },
       validate: {
         params: Joi.object({
-          userId: Joi.string().required(),
-        }),
-      },
-    },
+          userId: Joi.string().required()
+        })
+      }
+    }
   },
   {
     method: 'POST',
@@ -98,10 +98,10 @@ module.exports = [
       validate: {
         payload: Joi.object({
           email: Joi.string().required(),
-          password: Joi.string().required(),
-        }),
-      },
-    },
+          password: Joi.string().required()
+        })
+      }
+    }
   },
   {
     method: 'PUT',
@@ -112,13 +112,13 @@ module.exports = [
       tags: ['api', 'users'],
       validate: {
         params: Joi.object({
-          userId: Joi.string().required(),
+          userId: Joi.string().required()
         }),
         payload: Joi.object({
-          OTP: Joi.number().required(),
+          OTP: Joi.number().required()
         })
       }
-    },
+    }
   },
   {
     method: 'PUT',
@@ -129,10 +129,10 @@ module.exports = [
       tags: ['api', 'users'],
       validate: {
         payload: Joi.object({
-          email: Joi.string().required(),
-        }),
+          email: Joi.string().required()
+        })
       }
-    },
+    }
   },
   {
     method: 'PUT',
@@ -143,10 +143,10 @@ module.exports = [
       tags: ['api', 'users'],
       validate: {
         payload: Joi.object({
-          email: Joi.string().required(),
-        }),
+          email: Joi.string().required()
+        })
       }
-    },
+    }
   },
   {
     method: 'PUT',
@@ -159,9 +159,18 @@ module.exports = [
         payload: Joi.object({
           email: Joi.string().required(),
           password: Joi.string().required(),
-          OTP: Joi.number().required(),
-        }),
+          OTP: Joi.number().required()
+        })
       }
-    },
+    }
   },
-];
+  {
+    method: 'GET',
+    path: '/users/guest-login',
+    handler: studentController.guestLogin,
+    options: {
+      description: 'guest user login',
+      tags: ['api', 'users']
+    }
+  }
+]
