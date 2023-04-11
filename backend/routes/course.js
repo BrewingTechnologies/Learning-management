@@ -11,12 +11,15 @@ const courseJoiSchema = Joi.object({
   thumbnail: Joi.string(),
   instructor: Joi.string().required(),
   bookmark: Joi.bool().default(false),
+  startDate: Joi.date().required(),
+  endDate: Joi.date().required(),
+  isEnrolled: Joi.boolean().valid(true, false),
 });
 
 module.exports = [
   {
     method: 'POST',
-    path: '/course',
+    path: '/courses',
     handler: courseControllers.createCourse,
     options: {
       description: 'Create a course',
@@ -29,7 +32,7 @@ module.exports = [
   },
   {
     method: 'GET',
-    path: '/course/{courseId}',
+    path: '/courses/{courseId}',
     handler: courseControllers.courseDetails,
     options: {
       description: 'Course details',
@@ -44,7 +47,7 @@ module.exports = [
   },
   {
     method: 'GET',
-    path: '/course',
+    path: '/courses',
     handler: courseControllers.getAllCourses,
     options: {
       description: 'Get all courses',
@@ -54,7 +57,7 @@ module.exports = [
   },
   {
     method: 'GET',
-    path: '/course/instructor/{name}',
+    path: '/courses/instructor/{name}',
     handler: courseControllers.findCourseByInstructor,
     options: {
       description: 'Get course details by instructor',
@@ -69,7 +72,7 @@ module.exports = [
   },
   {
     method: 'PUT',
-    path: '/course/{courseId}',
+    path: '/courses/{courseId}',
     handler: courseControllers.updateCourseDetails,
     options: {
       description: 'Update course details',
@@ -87,13 +90,16 @@ module.exports = [
           thumbnail: Joi.string(),
           instructor: Joi.string(),
           bookmark: Joi.bool().default(false),
+          startDate: Joi.date(),
+          endDate: Joi.date(),
+          isEnrolled: Joi.boolean().valid(true, false),
         })
       },
     },
   },
   {
     method: 'DELETE',
-    path: '/course/{courseId}',
+    path: '/courses/{courseId}',
     handler: courseControllers.deleteCourse,
     options: {
       description: 'Delete course',
@@ -102,6 +108,36 @@ module.exports = [
       validate: {
         params: Joi.object({
           courseId: Joi.string().required(),
+        }),
+      },
+    },
+  },
+  {
+    method: 'GET',
+    path: '/courses/student/{userId}/wish-list',
+    handler: courseControllers.courseWishList,
+    options: {
+      description: 'Student bookmarked courses',
+      tags: ['api', 'course'],
+      auth: { strategy: 'default', scope: ['STUDENT'] },
+      validate: {
+        params: Joi.object({
+          userId: Joi.string().required(),
+        }),
+      },
+    },
+  },
+  {
+    method: 'GET',
+    path: '/courses/stundet/{userId}/enrolled',
+    handler: courseControllers.studentEnrolledCourses,
+    options: {
+      description: 'Student enrolled courses',
+      tags: ['api', 'course'],
+      auth: { strategy: 'default', scope: ['STUDENT'] },
+      validate: {
+        params: Joi.object({
+          userId: Joi.string().required(),
         }),
       },
     },

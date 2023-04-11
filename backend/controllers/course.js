@@ -15,7 +15,7 @@ const courseDetails = async (req) => {
   try {
     return await CoursesModel.findOne({ _id: req.params.courseId });
   } catch (error) {
-    console.log(error.message);``
+    console.log(error.message);
     return Boom.badRequest(error.message);
   }
 };
@@ -71,4 +71,22 @@ const deleteCourse = async (req) => {
 }
 
 
-module.exports = { createCourse, courseDetails, getAllCourses, findCourseByInstructor, updateCourseDetails, deleteCourse };
+const courseWishList = async (req) => {
+  try {
+    return await CoursesModel.find({ _id: req.params.userId, bookmark: true });
+  } catch (error) {
+    console.log(error.message);
+    return Boom.badRequest(error.message);
+  }
+}
+
+const studentEnrolledCourses = async (req) => {
+  try {
+    return await CoursesModel.find({ _id: req.params.userId, isEnrolled: true });
+  } catch (error) {
+    console.log(error.message);
+    return Boom.badRequest(error.message);
+  }
+}
+
+module.exports = { createCourse, courseDetails, getAllCourses, findCourseByInstructor, updateCourseDetails, deleteCourse, courseWishList, studentEnrolledCourses };

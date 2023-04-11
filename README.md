@@ -14,3 +14,5 @@ MONGO_URI='Your mongo DB URL'
 ```
 
 - Then use NPM INSTALL to install the all dependencies
+
+- Enter NPM START In the terminal to run the application.

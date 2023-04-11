@@ -10,6 +10,9 @@ const courseSchema = new Schema({
   thumbnail: String,
   instructor: String,
   bookmark: Boolean,
+  startDate: Date,
+  endDate: Date,
+  isEnrolled: Boolean,
 });
 
 module.exports = mongoose.model('course', courseSchema);
