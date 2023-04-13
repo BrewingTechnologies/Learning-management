@@ -8,12 +8,11 @@ const courseSchema = new Schema({
   description: String,
   price: Number,
   thumbnail: String,
-  instructor: String,
   bookmark: Boolean,
   startDate: Date,
   endDate: Date,
   isEnrolled: Boolean,
-  intructor: { type: mongoose.Schema.Types.ObjectId, ref: 'student' }
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'student' }
 })
 
 module.exports = mongoose.model('course', courseSchema)

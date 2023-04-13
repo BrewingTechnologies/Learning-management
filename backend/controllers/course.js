@@ -30,7 +30,7 @@ const getAllCourses = async () => {
 
 const findCourseByInstructor = async (req) => {
   try {
-    return await CoursesModel.findOne({ instructor: req.params.name })
+    return await CoursesModel.findOne({ user: req.params.name })
   } catch (error) {
     console.log(error.message)
     return Boom.badRequest(error.message)
@@ -96,11 +96,51 @@ const coursesByCategory = async (req) => {
 
 const getCoursesOfInstructor = async (req) => {
   try {
-    return await CoursesModel.find({ instructor: req.params.instructorId })
+    return await CoursesModel.find({ user: req.params.instructorId })
   } catch (error) {
     console.log(error.message)
     return Boom.badRequest(error.message)
   }
 }
 
-module.exports = { createCourse, courseDetails, getAllCourses, findCourseByInstructor, updateCourseDetails, deleteCourse, courseWishList, studentEnrolledCourses, coursesByCategory, getCoursesOfInstructor }
+const updateCourseEnrollmentOfStundet = async (req) => {
+  try {
+    const { isEnrolled } = req.query
+
+    const stundet = await CoursesModel.findOne({ user: req.params.userId })
+
+    if (!stundet) {
+      return Boom.notFound("Student with this id doesn't exists")
+    }
+
+    if (isEnrolled) {
+      return await CoursesModel.updateOne({ user: req.params.userId }, { isEnrolled: true })
+    }
+    return await CoursesModel.updateOne({ user: req.params.userId }, { isEnrolled: false })
+  } catch (error) {
+    console.log(error.message)
+    return Boom.badRequest(error.message)
+  }
+}
+
+const courseBookmarks = async (req) => {
+  try {
+    const { isfav } = req.query
+
+    const stundet = await CoursesModel.findOne({ user: req.params.userId })
+
+    if (!stundet) {
+      return Boom.notFound("Student with this id doesn't exists")
+    }
+
+    if (isfav) {
+      return await CoursesModel.updateOne({ user: req.params.userId }, { bookmark: true })
+    }
+    return await CoursesModel.updateOne({ user: req.params.userId }, { bookmark: false })
+  } catch (error) {
+    console.log(error.message)
+    return Boom.badRequest(error.message)
+  }
+}
+
+module.exports = { createCourse, courseDetails, getAllCourses, findCourseByInstructor, updateCourseDetails, deleteCourse, courseWishList, studentEnrolledCourses, coursesByCategory, getCoursesOfInstructor, updateCourseEnrollmentOfStundet, courseBookmarks }

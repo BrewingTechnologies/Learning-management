@@ -8,12 +8,11 @@ const courseJoiSchema = Joi.object({
   description: Joi.string().required(),
   price: Joi.number().required(),
   thumbnail: Joi.string(),
-  instructor: Joi.string().required(),
   bookmark: Joi.bool().default(false),
   startDate: Joi.date().required(),
   endDate: Joi.date().required(),
   isEnrolled: Joi.boolean().valid(true, false),
-  intructor: Joi.string().required()
+  user: Joi.string().required()
 })
 
 module.exports = [
@@ -88,7 +87,7 @@ module.exports = [
           description: Joi.string(),
           price: Joi.number(),
           thumbnail: Joi.string(),
-          instructor: Joi.string(),
+          user: Joi.string(),
           bookmark: Joi.bool().default(false),
           startDate: Joi.date(),
           endDate: Joi.date(),
@@ -174,7 +173,7 @@ module.exports = [
   },
   {
     method: 'GET',
-    path: '/courses/instructor/{instructorId}',
+    path: '/courses/{instructorId}/instructor',
     handler: courseControllers.getCoursesOfInstructor,
     options: {
       description: 'Get Instructor courses',
@@ -183,6 +182,42 @@ module.exports = [
       validate: {
         params: Joi.object({
           instructorId: Joi.string().required()
+        })
+      }
+    }
+  },
+  {
+    method: 'PUT',
+    path: '/courses/enrollment/{userId}',
+    handler: courseControllers.updateCourseEnrollmentOfStundet,
+    options: {
+      description: 'Update Stundet course enrollment',
+      tags: ['api', 'course'],
+      auth: { strategy: 'default', scope: ['STUDENT'] },
+      validate: {
+        params: Joi.object({
+          userId: Joi.string().required()
+        }),
+        query: Joi.object({
+          isEnrolled: Joi.boolean().valid(true, false)
+        })
+      }
+    }
+  },
+  {
+    method: 'PUT',
+    path: '/courses/bookmark/{userId}',
+    handler: courseControllers.updateCourseEnrollmentOfStundet,
+    options: {
+      description: 'Update Stundet Fav course',
+      tags: ['api', 'course'],
+      auth: { strategy: 'default', scope: ['STUDENT'] },
+      validate: {
+        params: Joi.object({
+          userId: Joi.string().required()
+        }),
+        query: Joi.object({
+          isFav: Joi.boolean().valid(true, false)
         })
       }
     }
