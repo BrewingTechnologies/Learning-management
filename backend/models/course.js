@@ -9,8 +9,7 @@ const courseSchema = new Schema({
   price: Number,
   thumbnail: String,
   bookmark: Boolean,
-  startDate: Date,
-  endDate: Date,
+  duration: String,
   isEnrolled: Boolean,
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'student' }
 })

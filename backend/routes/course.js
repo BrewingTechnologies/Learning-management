@@ -7,12 +7,8 @@ const courseJoiSchema = Joi.object({
   category: Joi.string().required(),
   description: Joi.string().required(),
   price: Joi.number().required(),
-  thumbnail: Joi.string(),
-  bookmark: Joi.bool().default(false),
-  startDate: Joi.date().required(),
-  endDate: Joi.date().required(),
-  isEnrolled: Joi.boolean().valid(true, false),
-  user: Joi.string().required()
+  user: Joi.string().required(),
+  duration: Joi.string().required()
 })
 
 module.exports = [
@@ -89,8 +85,7 @@ module.exports = [
           thumbnail: Joi.string(),
           user: Joi.string(),
           bookmark: Joi.bool().default(false),
-          startDate: Joi.date(),
-          endDate: Joi.date(),
+          duration: Joi.string(),
           isEnrolled: Joi.boolean().valid(true, false)
         })
       }
