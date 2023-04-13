@@ -1,10 +1,8 @@
 import React from "react";
-import User from "./components/user";
+import Routes from "./routes";
 
 const App = () => {
-  return <div>
-    <User />
-  </div>;
+  return <Routes />;
 };
 
 export default App;
