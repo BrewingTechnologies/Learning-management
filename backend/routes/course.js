@@ -12,7 +12,8 @@ const courseJoiSchema = Joi.object({
   bookmark: Joi.bool().default(false),
   startDate: Joi.date().required(),
   endDate: Joi.date().required(),
-  isEnrolled: Joi.boolean().valid(true, false)
+  isEnrolled: Joi.boolean().valid(true, false),
+  intructor: Joi.string().required()
 })
 
 module.exports = [
@@ -167,6 +168,21 @@ module.exports = [
       validate: {
         payload: Joi.object({
           category: Joi.string().required()
+        })
+      }
+    }
+  },
+  {
+    method: 'GET',
+    path: '/courses/instructor/{instructorId}',
+    handler: courseControllers.getCoursesOfInstructor,
+    options: {
+      description: 'Get Instructor courses',
+      tags: ['api', 'course'],
+      auth: { strategy: 'default', scope: ['ADMIN', 'PROFESSOR'] },
+      validate: {
+        params: Joi.object({
+          instructorId: Joi.string().required()
         })
       }
     }

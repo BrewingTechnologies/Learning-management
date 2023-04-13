@@ -94,4 +94,13 @@ const coursesByCategory = async (req) => {
   }
 }
 
-module.exports = { createCourse, courseDetails, getAllCourses, findCourseByInstructor, updateCourseDetails, deleteCourse, courseWishList, studentEnrolledCourses, coursesByCategory }
+const getCoursesOfInstructor = async (req) => {
+  try {
+    return await CoursesModel.find({ instructor: req.params.instructorId })
+  } catch (error) {
+    console.log(error.message)
+    return Boom.badRequest(error.message)
+  }
+}
+
+module.exports = { createCourse, courseDetails, getAllCourses, findCourseByInstructor, updateCourseDetails, deleteCourse, courseWishList, studentEnrolledCourses, coursesByCategory, getCoursesOfInstructor }
