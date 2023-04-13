@@ -6,7 +6,7 @@ const studentJoiSchema = Joi.object({
   lastName: Joi.string().required(),
   email: Joi.string().required(),
   password: Joi.string().min(6).required(),
-  role: Joi.string().valid('STUDENT', 'ADMIN', 'PROFESSOR')
+  role: Joi.string().valid('STUDENT', 'ADMIN', 'INSTRUCTOR')
 })
 
 module.exports = [
@@ -29,7 +29,7 @@ module.exports = [
     options: {
       description: 'Get user details',
       tags: ['api', 'users'],
-      auth: { strategy: 'default', scope: ['ADMIN', 'STUDENT', 'PROFESSOR'] },
+      auth: { strategy: 'default', scope: ['ADMIN', 'STUDENT', 'INSTRUCTOR'] },
       validate: {
         params: Joi.object({
           userId: Joi.string().required()
@@ -54,7 +54,7 @@ module.exports = [
     options: {
       description: 'Update student details',
       tags: ['api', 'users'],
-      auth: { strategy: 'default', scope: ['ADMIN', 'STUDENT', 'PROFESSOR'] },
+      auth: { strategy: 'default', scope: ['ADMIN', 'STUDENT', 'INSTRUCTOR'] },
       validate: {
         params: Joi.object({
           userId: Joi.string().required()

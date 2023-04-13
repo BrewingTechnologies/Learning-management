@@ -19,7 +19,7 @@ module.exports = [
     options: {
       description: 'Create a course',
       tags: ['api', 'course'],
-      auth: { strategy: 'default', scope: ['ADMIN', 'PROFESSOR'] },
+      auth: { strategy: 'default', scope: ['ADMIN', 'INSTRUCTOR'] },
       validate: {
         payload: courseJoiSchema
       }
@@ -32,7 +32,7 @@ module.exports = [
     options: {
       description: 'Course details',
       tags: ['api', 'course'],
-      auth: { strategy: 'default', scope: ['ADMIN', 'PROFESSOR'] },
+      auth: { strategy: 'default', scope: ['ADMIN', 'INSTRUCTOR'] },
       validate: {
         params: Joi.object({
           courseId: Joi.string().required()
@@ -72,7 +72,7 @@ module.exports = [
     options: {
       description: 'Update course details',
       tags: ['api', 'course'],
-      auth: { strategy: 'default', scope: ['ADMIN', 'PROFESSOR'] },
+      auth: { strategy: 'default', scope: ['ADMIN', 'INSTRUCTOR'] },
       validate: {
         params: Joi.object({
           courseId: Joi.string().required()
@@ -98,7 +98,7 @@ module.exports = [
     options: {
       description: 'Delete course',
       tags: ['api', 'course'],
-      auth: { strategy: 'default', scope: ['ADMIN', 'PROFESSOR'] },
+      auth: { strategy: 'default', scope: ['ADMIN', 'INSTRUCTOR'] },
       validate: {
         params: Joi.object({
           courseId: Joi.string().required()
@@ -173,7 +173,7 @@ module.exports = [
     options: {
       description: 'Get Instructor courses',
       tags: ['api', 'course'],
-      auth: { strategy: 'default', scope: ['ADMIN', 'PROFESSOR'] },
+      auth: { strategy: 'default', scope: ['ADMIN', 'INSTRUCTOR'] },
       validate: {
         params: Joi.object({
           instructorId: Joi.string().required()

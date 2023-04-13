@@ -12,7 +12,7 @@ const studentSchema = new Schema({
   verified: Boolean,
   role: {
     type: String,
-    enum: ['STUDENT', 'ADMIN', 'PROFESSOR']
+    enum: ['STUDENT', 'ADMIN', 'INSTRUCTOR']
   }
 })
 

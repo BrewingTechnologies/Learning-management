@@ -19,7 +19,7 @@ module.exports = [
     options: {
       description: 'Monthly instructor revenue',
       tags: ['api', 'revenue'],
-      auth: { strategy: 'default', scope: ['PROFESSOR'] }
+      auth: { strategy: 'default', scope: ['INSTRUCTOR'] }
     }
   }
 ]
