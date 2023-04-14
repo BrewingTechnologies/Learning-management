@@ -3,8 +3,16 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const randomOtp = require('random-otp-generator')
 const StudentsModel = require('../models/user')
+const cloudinary = require('cloudinary').v2
 
 const { sendOTP } = require('../utils/notification')
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET_KEY,
+  secure: true
+})
 
 const createStudent = async (req) => {
   try {
@@ -216,6 +224,28 @@ const addStudentByAdmin = async (req) => {
   }
 }
 
+const uploadUserProfilePic = async (req) => {
+  try {
+    const options = {
+      use_filename: true,
+      unique_filename: false,
+      overwrite: true,
+      folder: 'user-profile'
+    }
+
+    const user = await StudentsModel.findOne({ _id: req.params.userId })
+    if (!user) {
+      return Boom.notFound("User with this Id doesn't exists")
+    }
+    return await cloudinary.uploader.upload_stream(options, async (_err, image) => {
+      await StudentsModel.findByIdAndUpdate({ _id: user._id }, { profilePhoto: image.url }, { new: true })
+    }).end(req?.payload?.file?._data)
+  } catch (error) {
+    console.log(error.message)
+    return Boom.badRequest(error.message)
+  }
+}
+
 module.exports = {
-  createStudent, getStudentDetails, updateStudentDetails, deleteStudent, getAllStudents, studentLogin, verifyOtp, resendOtp, sendOtpForForgotPassword, updateNewPassword, guestLogin, addStudentByAdmin
+  createStudent, getStudentDetails, updateStudentDetails, deleteStudent, getAllStudents, studentLogin, verifyOtp, resendOtp, sendOtpForForgotPassword, updateNewPassword, guestLogin, addStudentByAdmin, uploadUserProfilePic
 }

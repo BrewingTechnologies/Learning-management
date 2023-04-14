@@ -18,7 +18,7 @@ module.exports = [
     handler: courseControllers.createCourse,
     options: {
       description: 'Create a course',
-      tags: ['api', 'course'],
+      tags: ['api', 'courses'],
       auth: { strategy: 'default', scope: ['ADMIN', 'INSTRUCTOR'] },
       validate: {
         payload: courseJoiSchema
@@ -31,7 +31,7 @@ module.exports = [
     handler: courseControllers.courseDetails,
     options: {
       description: 'Course details',
-      tags: ['api', 'course'],
+      tags: ['api', 'courses'],
       auth: { strategy: 'default', scope: ['ADMIN', 'INSTRUCTOR'] },
       validate: {
         params: Joi.object({
@@ -46,7 +46,7 @@ module.exports = [
     handler: courseControllers.getAllCourses,
     options: {
       description: 'Get all courses',
-      tags: ['api', 'course'],
+      tags: ['api', 'courses'],
       auth: { strategy: 'default', scope: ['ADMIN'] }
     }
   },
@@ -56,7 +56,7 @@ module.exports = [
     handler: courseControllers.findCourseByInstructor,
     options: {
       description: 'Get course details by instructor',
-      tags: ['api', 'course'],
+      tags: ['api', 'courses'],
       auth: { strategy: 'default', scope: ['ADMIN', 'STUDENT'] },
       validate: {
         params: Joi.object({
@@ -71,7 +71,7 @@ module.exports = [
     handler: courseControllers.updateCourseDetails,
     options: {
       description: 'Update course details',
-      tags: ['api', 'course'],
+      tags: ['api', 'courses'],
       auth: { strategy: 'default', scope: ['ADMIN', 'INSTRUCTOR'] },
       validate: {
         params: Joi.object({
@@ -97,7 +97,7 @@ module.exports = [
     handler: courseControllers.deleteCourse,
     options: {
       description: 'Delete course',
-      tags: ['api', 'course'],
+      tags: ['api', 'courses'],
       auth: { strategy: 'default', scope: ['ADMIN', 'INSTRUCTOR'] },
       validate: {
         params: Joi.object({
@@ -112,7 +112,7 @@ module.exports = [
     handler: courseControllers.courseWishList,
     options: {
       description: 'Student bookmarked courses',
-      tags: ['api', 'course'],
+      tags: ['api', 'courses'],
       auth: { strategy: 'default', scope: ['STUDENT'] },
       validate: {
         params: Joi.object({
@@ -127,7 +127,7 @@ module.exports = [
     handler: courseControllers.studentEnrolledCourses,
     options: {
       description: 'Student enrolled courses',
-      tags: ['api', 'course'],
+      tags: ['api', 'courses'],
       auth: { strategy: 'default', scope: ['STUDENT'] },
       validate: {
         params: Joi.object({
@@ -142,7 +142,7 @@ module.exports = [
     handler: courseControllers.coursesByCategory,
     options: {
       description: 'Get all courses by category',
-      tags: ['api', 'course'],
+      tags: ['api', 'courses'],
       auth: { strategy: 'default', scope: ['ADMIN', 'STUDENT'] },
       validate: {
         payload: Joi.object({
@@ -157,7 +157,7 @@ module.exports = [
     handler: courseControllers.coursesByCategory,
     options: {
       description: 'Get all courses by category',
-      tags: ['api', 'course'],
+      tags: ['api', 'courses'],
       auth: { strategy: 'default', scope: ['ADMIN', 'STUDENT'] },
       validate: {
         payload: Joi.object({
@@ -172,7 +172,7 @@ module.exports = [
     handler: courseControllers.getCoursesOfInstructor,
     options: {
       description: 'Get Instructor courses',
-      tags: ['api', 'course'],
+      tags: ['api', 'courses'],
       auth: { strategy: 'default', scope: ['ADMIN', 'INSTRUCTOR'] },
       validate: {
         params: Joi.object({
@@ -187,7 +187,7 @@ module.exports = [
     handler: courseControllers.updateCourseEnrollmentOfStundet,
     options: {
       description: 'Update Stundet course enrollment',
-      tags: ['api', 'course'],
+      tags: ['api', 'courses'],
       auth: { strategy: 'default', scope: ['STUDENT'] },
       validate: {
         params: Joi.object({
@@ -205,7 +205,7 @@ module.exports = [
     handler: courseControllers.updateCourseEnrollmentOfStundet,
     options: {
       description: 'Update Stundet Fav course',
-      tags: ['api', 'course'],
+      tags: ['api', 'courses'],
       auth: { strategy: 'default', scope: ['STUDENT'] },
       validate: {
         params: Joi.object({
@@ -214,6 +214,38 @@ module.exports = [
         query: Joi.object({
           isFav: Joi.boolean().valid(true, false)
         })
+      }
+    }
+  },
+  {
+    method: 'PUT',
+    path: '/courses/{courseId}/thumbnail',
+    handler: courseControllers.uploadThumbNail,
+    options: {
+      description: 'upload course thumbnail',
+      tags: ['api', 'courses'],
+      // auth: { strategy: 'default', scope: ['STUDENT', 'ADMIN', 'INSTRUCTOR'] },
+      payload: {
+        multipart: { output: 'stream' },
+        allow: 'multipart/form-data',
+        parse: true,
+        maxBytes: 1024 * 1024 * 100 //  maxBytes: 100MB
+      },
+      validate: {
+        params: Joi.object({
+          courseId: Joi.string().required()
+        }),
+        payload: Joi.object({
+          file: Joi.any().meta({ swaggerType: 'file' }).required()
+        }),
+        query: Joi.object({
+          file: Joi.boolean().valid(true, false)
+        })
+      },
+      plugins: {
+        'hapi-swagger': {
+          payloadType: 'form'
+        }
       }
     }
   }

@@ -180,5 +180,34 @@ module.exports = [
         payload: studentJoiSchema
       }
     }
+  },
+  {
+    method: 'PUT',
+    path: '/users/{userId}/profile-photo',
+    handler: studentController.uploadUserProfilePic,
+    options: {
+      description: 'upload user profile pic',
+      tags: ['api', 'users'],
+      // auth: { strategy: 'default', scope: ['STUDENT', 'ADMIN', 'INSTRUCTOR'] },
+      payload: {
+        multipart: { output: 'stream' },
+        allow: 'multipart/form-data',
+        parse: true,
+        maxBytes: 1024 * 1024 * 100 //  maxBytes: 100MB
+      },
+      validate: {
+        params: Joi.object({
+          userId: Joi.string().required()
+        }),
+        payload: Joi.object({
+          file: Joi.any().meta({ swaggerType: 'file' }).required()
+        })
+      },
+      plugins: {
+        'hapi-swagger': {
+          payloadType: 'form'
+        }
+      }
+    }
   }
 ]

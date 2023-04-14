@@ -10,6 +10,7 @@ const studentSchema = new Schema({
   authToken: String,
   OTP: Number,
   verified: Boolean,
+  profilePhoto: String,
   role: {
     type: String,
     enum: ['STUDENT', 'ADMIN', 'INSTRUCTOR']

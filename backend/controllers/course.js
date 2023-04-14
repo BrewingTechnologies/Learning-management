@@ -1,6 +1,8 @@
 const Boom = require('@hapi/boom')
 const CoursesModel = require('../models/course')
 
+const cloudinary = require('cloudinary')
+
 const createCourse = async (req) => {
   try {
     return await CoursesModel.create(req.payload)
@@ -69,7 +71,7 @@ const deleteCourse = async (req) => {
 
 const courseWishList = async (req) => {
   try {
-    return await CoursesModel.find({ _id: req.params.userId, bookmark: true })
+    return await CoursesModel.find({ user: req.params.userId, bookmark: true })
   } catch (error) {
     console.log(error.message)
     return Boom.badRequest(error.message)
@@ -78,7 +80,7 @@ const courseWishList = async (req) => {
 
 const studentEnrolledCourses = async (req) => {
   try {
-    return await CoursesModel.find({ _id: req.params.userId, isEnrolled: true })
+    return await CoursesModel.find({ user: req.params.userId, isEnrolled: true })
   } catch (error) {
     console.log(error.message)
     return Boom.badRequest(error.message)
@@ -143,4 +145,29 @@ const courseBookmarks = async (req) => {
   }
 }
 
-module.exports = { createCourse, courseDetails, getAllCourses, findCourseByInstructor, updateCourseDetails, deleteCourse, courseWishList, studentEnrolledCourses, coursesByCategory, getCoursesOfInstructor, updateCourseEnrollmentOfStundet, courseBookmarks }
+const uploadThumbNail = async (req) => {
+  try {
+    const options = {
+      use_filename: true,
+      unique_filename: false,
+      overwrite: true,
+      folder: 'course'
+    }
+
+    let fileData
+    const course = await CoursesModel.findOne({ _id: req.params.courseId })
+    if (!course) {
+      return Boom.notFound("User with this Id doesn't exists")
+    }
+
+    await cloudinary.uploader.upload_stream(options, async (_err, image) => {
+      fileData = await CoursesModel.findByIdAndUpdate({ _id: course._id }, { thumbnail: image.url }, { new: true })
+    }).end(req?.payload?.file?._data)
+    return fileData
+  } catch (error) {
+    console.log(error.message)
+    return Boom.badRequest(error.message)
+  }
+}
+
+module.exports = { createCourse, courseDetails, getAllCourses, findCourseByInstructor, updateCourseDetails, deleteCourse, courseWishList, studentEnrolledCourses, coursesByCategory, getCoursesOfInstructor, updateCourseEnrollmentOfStundet, courseBookmarks, uploadThumbNail }
