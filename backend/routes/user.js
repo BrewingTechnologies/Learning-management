@@ -29,7 +29,7 @@ module.exports = [
     options: {
       description: 'Get user details',
       tags: ['api', 'users'],
-      auth: { strategy: 'default', scope: ['ADMIN', 'STUDENT', 'INSTRUCTOR'] },
+      // auth: { strategy: 'default', scope: ['ADMIN', 'STUDENT', 'INSTRUCTOR'] },
       validate: {
         params: Joi.object({
           userId: Joi.string().required()
@@ -44,7 +44,7 @@ module.exports = [
     options: {
       description: 'Get all users details',
       tags: ['api', 'users'],
-      auth: { strategy: 'default', scope: ['ADMIN'] }
+      // auth: { strategy: 'default', scope: ['ADMIN'] }
     }
   },
   {
@@ -54,7 +54,7 @@ module.exports = [
     options: {
       description: 'Update student details',
       tags: ['api', 'users'],
-      auth: { strategy: 'default', scope: ['ADMIN', 'STUDENT', 'INSTRUCTOR'] },
+      // auth: { strategy: 'default', scope: ['ADMIN', 'STUDENT', 'INSTRUCTOR'] },
       validate: {
         params: Joi.object({
           userId: Joi.string().required()
@@ -75,7 +75,7 @@ module.exports = [
     options: {
       description: 'Delete student',
       tags: ['api', 'users'],
-      auth: { strategy: 'default', scope: ['ADMIN'] },
+      // auth: { strategy: 'default', scope: ['ADMIN'] },
       validate: {
         params: Joi.object({
           userId: Joi.string().required()
@@ -175,7 +175,7 @@ module.exports = [
     options: {
       description: 'Create a student by admin',
       tags: ['api', 'users'],
-      auth: { strategy: 'default', scope: ['ADMIN'] },
+      // auth: { strategy: 'default', scope: ['ADMIN'] },
       validate: {
         payload: studentJoiSchema
       }

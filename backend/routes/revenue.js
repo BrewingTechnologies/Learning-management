@@ -9,7 +9,7 @@ module.exports = [
     options: {
       description: 'Monthly Admin revenue',
       tags: ['api', 'revenue'],
-      auth: { strategy: 'default', scope: ['ADMIN'] }
+      // auth: { strategy: 'default', scope: ['ADMIN'] }
     }
   },
   {
@@ -19,7 +19,7 @@ module.exports = [
     options: {
       description: 'Monthly instructor revenue',
       tags: ['api', 'revenue'],
-      auth: { strategy: 'default', scope: ['INSTRUCTOR'] }
+      // auth: { strategy: 'default', scope: ['INSTRUCTOR'] }
     }
   }
 ]

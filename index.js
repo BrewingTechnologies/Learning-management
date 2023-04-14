@@ -19,7 +19,15 @@ const db = mongoose.connection
 const init = async () => {
   const server = Hapi.server({
     port: 4000,
-    host: 'localhost'
+    host: 'localhost',
+    routes: {
+      cors: true,
+      validate: {
+        failAction: (request, h, err) => {
+          throw err
+        }
+      }
+    }
   })
 
   const swaggerOptions = {

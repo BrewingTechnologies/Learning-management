@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
 import { Route, Switch } from "react-router-dom";
 
-import Signup from "../components/User";
-import Login from "../components/User";
-import ResetPassword from "../components/User";
+import Signup from "./Signup/Signup";
+import Login from "./Login/Login";
+import ResetPassword from "./ResetPassword/ResetPassword";
 
 function PublicRoutes() {
   return (

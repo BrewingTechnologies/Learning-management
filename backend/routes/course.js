@@ -19,7 +19,7 @@ module.exports = [
     options: {
       description: 'Create a course',
       tags: ['api', 'courses'],
-      auth: { strategy: 'default', scope: ['ADMIN', 'INSTRUCTOR'] },
+      // auth: { strategy: 'default', scope: ['ADMIN', 'INSTRUCTOR'] },
       validate: {
         payload: courseJoiSchema
       }
@@ -32,7 +32,7 @@ module.exports = [
     options: {
       description: 'Course details',
       tags: ['api', 'courses'],
-      auth: { strategy: 'default', scope: ['ADMIN', 'INSTRUCTOR'] },
+      // auth: { strategy: 'default', scope: ['ADMIN', 'INSTRUCTOR'] },
       validate: {
         params: Joi.object({
           courseId: Joi.string().required()
@@ -47,7 +47,7 @@ module.exports = [
     options: {
       description: 'Get all courses',
       tags: ['api', 'courses'],
-      auth: { strategy: 'default', scope: ['ADMIN'] }
+      // auth: { strategy: 'default', scope: ['ADMIN'] }
     }
   },
   {
@@ -57,7 +57,7 @@ module.exports = [
     options: {
       description: 'Get course details by instructor',
       tags: ['api', 'courses'],
-      auth: { strategy: 'default', scope: ['ADMIN', 'STUDENT'] },
+      // auth: { strategy: 'default', scope: ['ADMIN', 'STUDENT'] },
       validate: {
         params: Joi.object({
           name: Joi.string().required()
@@ -72,7 +72,7 @@ module.exports = [
     options: {
       description: 'Update course details',
       tags: ['api', 'courses'],
-      auth: { strategy: 'default', scope: ['ADMIN', 'INSTRUCTOR'] },
+      // auth: { strategy: 'default', scope: ['ADMIN', 'INSTRUCTOR'] },
       validate: {
         params: Joi.object({
           courseId: Joi.string().required()
@@ -98,7 +98,7 @@ module.exports = [
     options: {
       description: 'Delete course',
       tags: ['api', 'courses'],
-      auth: { strategy: 'default', scope: ['ADMIN', 'INSTRUCTOR'] },
+      // auth: { strategy: 'default', scope: ['ADMIN', 'INSTRUCTOR'] },
       validate: {
         params: Joi.object({
           courseId: Joi.string().required()
@@ -113,7 +113,7 @@ module.exports = [
     options: {
       description: 'Student bookmarked courses',
       tags: ['api', 'courses'],
-      auth: { strategy: 'default', scope: ['STUDENT'] },
+      // auth: { strategy: 'default', scope: ['STUDENT'] },
       validate: {
         params: Joi.object({
           userId: Joi.string().required()
@@ -128,7 +128,7 @@ module.exports = [
     options: {
       description: 'Student enrolled courses',
       tags: ['api', 'courses'],
-      auth: { strategy: 'default', scope: ['STUDENT'] },
+      // auth: { strategy: 'default', scope: ['STUDENT'] },
       validate: {
         params: Joi.object({
           userId: Joi.string().required()
@@ -143,7 +143,7 @@ module.exports = [
     options: {
       description: 'Get all courses by category',
       tags: ['api', 'courses'],
-      auth: { strategy: 'default', scope: ['ADMIN', 'STUDENT'] },
+      // auth: { strategy: 'default', scope: ['ADMIN', 'STUDENT'] },
       validate: {
         payload: Joi.object({
           category: Joi.string().required()
@@ -158,7 +158,7 @@ module.exports = [
     options: {
       description: 'Get all courses by category',
       tags: ['api', 'courses'],
-      auth: { strategy: 'default', scope: ['ADMIN', 'STUDENT'] },
+      // auth: { strategy: 'default', scope: ['ADMIN', 'STUDENT'] },
       validate: {
         payload: Joi.object({
           category: Joi.string().required()
@@ -173,7 +173,7 @@ module.exports = [
     options: {
       description: 'Get Instructor courses',
       tags: ['api', 'courses'],
-      auth: { strategy: 'default', scope: ['ADMIN', 'INSTRUCTOR'] },
+      // auth: { strategy: 'default', scope: ['ADMIN', 'INSTRUCTOR'] },
       validate: {
         params: Joi.object({
           instructorId: Joi.string().required()
@@ -188,7 +188,7 @@ module.exports = [
     options: {
       description: 'Update Stundet course enrollment',
       tags: ['api', 'courses'],
-      auth: { strategy: 'default', scope: ['STUDENT'] },
+      // auth: { strategy: 'default', scope: ['STUDENT'] },
       validate: {
         params: Joi.object({
           userId: Joi.string().required()
@@ -206,7 +206,7 @@ module.exports = [
     options: {
       description: 'Update Stundet Fav course',
       tags: ['api', 'courses'],
-      auth: { strategy: 'default', scope: ['STUDENT'] },
+      // auth: { strategy: 'default', scope: ['STUDENT'] },
       validate: {
         params: Joi.object({
           userId: Joi.string().required()
