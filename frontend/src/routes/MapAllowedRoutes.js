@@ -1,6 +1,5 @@
 import React, { memo } from "react";
 import { Switch, Route, useRouteMatch } from "react-router-dom";
-import NotFound from "../components/User";
 
 /*
  * This is the route utility component used for generating
@@ -33,7 +32,7 @@ function MapAllowedRoutes({ routes, basePath, isAddNotFound }) {
       })}
       {isAddNotFound && (
         <Route>
-          <NotFound />
+          <div> Page not found</div>
         </Route>
       )}
     </Switch>

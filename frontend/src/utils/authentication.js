@@ -1,9 +1,8 @@
 import axios from "axios";
-import jwt_decode from "jwt-decode";
 import { getLogoutURL } from "./helperMethods";
 
 let role = null;
-let userInfo = {};
+export let userInfo = {};
 
 export function getUserInfo() {
   return userInfo;
@@ -54,17 +53,17 @@ export function setUnAuthenticationInterceptor() {
 
 export function decodeUserInfo(token) {
   if (!token) {
-    token = localStorage.getItem("authorization");
-    setCommonHeaders({ authorization: token });
+    token = localStorage.getItem("data");
   }
   if (!token) {
     userInfo = {};
     setRole(null);
     return userInfo;
   } else {
-    userInfo = jwt_decode(token);
-    setRole(userInfo["custom:role"]);
+    userInfo = JSON.parse(token);
+    setRole(userInfo.role);
     setUnAuthenticationInterceptor();
+    setCommonHeaders({ authorization: token.authToken });
     return userInfo;
   }
 }
@@ -77,11 +76,11 @@ export function getRole() {
 }
 
 export function handleLogin(authenticationResult = {}) {
-  const { IdToken, AccessToken } = authenticationResult || {};
-  localStorage.setItem("authorization", authenticationResult.IdToken);
+  const { authToken } = authenticationResult || {};
+  localStorage.setItem("authorization", authToken);
+  localStorage.setItem("data", JSON.stringify(authenticationResult));
   setCommonHeaders({
-    authorization: IdToken,
-    accessControlToken: AccessToken,
+    authorization: authToken,
   });
-  decodeUserInfo(IdToken);
+  decodeUserInfo(authenticationResult);
 }

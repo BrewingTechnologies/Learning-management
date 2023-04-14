@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState,  } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom'
+// import { useHistory } from 'react-router-dom'
+import { loginUser } from '../../store/apis';
 
-import { userLogin, reset } from '../../store/slices/loginReducer';
 
 const Login = () => {
 
-  const { user, isLoading, isSuccess, message } = useSelector((state) => state.auth);
 
-  const dispatch = useDispatch();
-  const history = useHistory()
+  //const history = useHistory()
 
   const [userInfo, setUserInfo] = useState({
     email: '',
     password: '',
   })
 
-  const loginHandler = (e) => {
+  const loginHandler = async (e) => {
     e.preventDefault();
-    dispatch(userLogin(userInfo))
+   const status = await loginUser(userInfo)
+   if(status){
+    //history.push('/app/dashboard')
+   }
   }
 
   const handleChange = (e) => {
@@ -30,14 +30,6 @@ const Login = () => {
       [e.target.name]: e.target.value
     })
   }
-
-  useEffect(() => {
-    if (isSuccess || user) {
-      history.push('/')
-    }
-
-    dispatch(reset())
-  }, [user, isSuccess, message,, dispatch])
 
 
   return (
