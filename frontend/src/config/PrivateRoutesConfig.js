@@ -1,4 +1,3 @@
-import User from "../components/User";
 import Dashboard from "../routes/student/dashboard/Dashboard";
 // import Roles from "./Roles";
 
@@ -14,12 +13,6 @@ import Dashboard from "../routes/student/dashboard/Dashboard";
  * */
 
 const PrivateRoutesConfig = [
-  {
-    component: User,
-    path: "/profile",
-    title: "Profile",
-    permission: [],
-  },
   {
     component: Dashboard,
     path: "/dashboard",
