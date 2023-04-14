@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-import { login, register } from './loginService'
+import { login, register, verifyOtp } from './loginService'
 
 export const userSignup = createAsyncThunk(
   'auth/register',
@@ -19,6 +19,25 @@ export const userSignup = createAsyncThunk(
   }
 )
 
+
+export const userVerifyOtp = createAsyncThunk(
+  'auth/verify',
+  async (otp, thunkAPI) => {
+    try {
+      return await verifyOtp(otp)
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
+
+
 export const userLogin = createAsyncThunk('auth/login', async (user, thunkAPI) => {
   try {
     return await login(user)
@@ -36,6 +55,7 @@ const initialState = {
   isLoading: false,
   isSuccess: false,
   message: '',
+  isError: false,
 }
 
 const userLoginSlice = createSlice({
@@ -54,24 +74,42 @@ const userLoginSlice = createSlice({
       state.user = payload;
       state.isLoading = false;
       state.isSuccess = true;
-      state.message = ''
+      state.message = '';
+      state.isError = false
     }).addCase(userSignup.rejected, (state, { payload }) => {
       state.user = null;
       state.isLoading = false;
       state.message = payload;
-      state.isSuccess = false
+      state.isSuccess = false;
+      state.isError = true
     }).addCase(userLogin.pending, (state) => {
       state.isLoading = true;
     }).addCase(userLogin.fulfilled, (state, { payload }) => {
       state.user = payload;
       state.isLoading = false;
       state.isSuccess = true;
-      state.message = ''
+      state.message = '';
+      state.isError = false
     }).addCase(userLogin.rejected, (state, { payload }) => {
       state.user = null;
       state.isLoading = false;
       state.message = payload;
       state.isSuccess = false;
+      state.isError = true
+    }).addCase(userVerifyOtp.pending, (state) => {
+      state.isLoading = true;
+    }).addCase(userVerifyOtp.fulfilled, (state, { payload }) => {
+      state.user = payload;
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.message = '';
+      state.isError = false
+    }).addCase(userVerifyOtp.rejected, (state, { payload }) => {
+      state.user = null;
+      state.isLoading = false;
+      state.message = payload;
+      state.isSuccess = false;
+      state.isError = true
     })
   }
 })

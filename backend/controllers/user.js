@@ -19,7 +19,9 @@ const createStudent = async (req) => {
     const existingUser = await StudentsModel.findOne({ email: req.payload.email })
 
     if (existingUser && !existingUser.verified) {
-      return { success: true, message: 'User with this email already exists', userId: existingUser._id }
+      const err = Boom.conflict('User with this email already exists..!')
+      err.output.payload._id = existingUser._id
+      return err
     }
 
     const user = new StudentsModel(req.payload)

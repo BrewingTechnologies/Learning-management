@@ -7,7 +7,6 @@ const API_URL = config.RestServiceURL;
 
 // Register user
 export const register = async (userData) => {
-  console.log(userData);
   const response = await axios.post(API_URL + 'users/user', userData)
 
   if (response.data) {
@@ -29,4 +28,9 @@ export const login = async (userData) => {
 }
 
 
+// verify otp
+export const verifyOtp = async ({ otp, userId }) => {
+  const response = await axios.put(API_URL + 'users/' + userId + '/verify-otp', { OTP: otp })
 
+  return response.data
+}
