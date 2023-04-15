@@ -10,7 +10,7 @@ const ResetPassword = () => {
   const [userData, setUserData] = useState({
     email: '',
     password: '',
-    OTP: null,
+    OTP: '',
   });
 
   const history = useHistory();
@@ -30,9 +30,12 @@ const ResetPassword = () => {
   }
 
   const handleSubmit = async () => {
-    toast.success('Your password updated successfully')
-    history.push('/')
-    await updatePassword(userData);
+
+    const status = await updatePassword(userData);
+    if (status) {
+      toast.success('Your password updated successfully')
+      history.push('/')
+    }
   }
 
   if (loading) {

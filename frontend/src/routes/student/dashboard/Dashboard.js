@@ -3,11 +3,18 @@ import { useHistory } from "react-router-dom";
 import { getRole, handleLogout, userInfo } from "../../../utils/authentication";
 import { fetchAllCourses, fetchInstructorCourses } from "../../../store/apis";
 import Roles from "../../../config/Roles";
+import AddCourse from "../../AddCourse/AddCourse";
+import Header from '../../Header/Header';
+import { Container, Row, Col, Button, Card } from 'react-bootstrap';
+
 
 const Dashboard = (props) => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const history = useHistory();
+
+  const [addCourse, setAddCourse] = useState(false);
+
 
   const fetchCourses = async () => {
     const role = getRole();
@@ -39,28 +46,58 @@ const Dashboard = (props) => {
           history.push(`/app/${course._id}`);
         }}
         key={`${course._id}`}
-        style={{ border: "1px solid black", margin: 12, padding: 12 }}
       >
-        <div>{course.name}</div>
-        <div>{course.description}</div>
-        <div>{course.instructor}</div>
-        <div>{course.category}</div>
+        <Card style={{ width: '25rem' }}>
+          <Card.Body>
+            <Card.Title className="text-primary text-center p-2" >Course Details</Card.Title>
+            <Card.Text>Name: {course.name}</Card.Text>
+            <Card.Text>Description : {course.description}</Card.Text>
+            <Card.Text>Instructor:  {course.user?.firstName}</Card.Text>
+            <Card.Text>Category:  {course.category}</Card.Text>
+            <div className="text-center" >
+              <Button variant="primary">View Course</Button>
+            </div>
+          </Card.Body>
+        </Card>
       </div>
     );
   };
 
+  const handlerClose = (data) => {
+    setAddCourse(data);
+  }
+
   return (
-    <div>
-      <div className='d-flex justify-content-between m-25'>
-        <h1>Welcom {userInfo.firstName}</h1>
-        <button onClick={handleLogoutClick}>Logout</button>
-      </div>
-      {!loading && (
-        <div className='d-flex'>
-          {courses.map((course) => displayCourse(course))}
-        </div>
-      )}
-    </div>
+    <>
+      <Header />
+      <Container fluid >
+        <Row>
+          <Col>
+            <div className='d-flex justify-content-around align-items-center align-content-center'>
+              <h4 className="mt-3" >Welcome {userInfo.firstName}</h4>
+              <Button variant="outline-danger" onClick={handleLogoutClick}>Logout</Button>
+            </div>
+          </Col>
+          <div className="text-center" >
+            <Button className="m-5" onClick={() => setAddCourse(true)} variant="outline-primary">Add Course</Button>
+          </div>
+        </Row>
+        <Row>
+          <Col>
+            {!loading && (
+              <div className="d-flex justify-content-around flex-wrap" >
+                {courses.map((course) => displayCourse(course))}
+              </div>
+            )}
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            {addCourse && <AddCourse handlerClose={handlerClose} />}
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 

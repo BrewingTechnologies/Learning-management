@@ -3,6 +3,8 @@ import { useHistory, useRouteMatch } from "react-router-dom";
 import { handleLogout, userInfo } from "../../utils/authentication";
 import { getCourseDetails } from "../../store/apis";
 
+import { Container, Row, Col, Button } from 'react-bootstrap';
+
 const Course = (props) => {
   const history = useHistory();
   const match = useRouteMatch("/app/:courseId");
@@ -24,22 +26,27 @@ const Course = (props) => {
   };
 
   return (
-    <div>
-      <div className='d-flex justify-content-between m-25'>
-        <h1>Welcom {userInfo.firstName}</h1>
-        <button onClick={handleLogoutClick}>Logout</button>
-      </div>
-      {courseInfo?._id ? (
-        <div>
-          <div>{courseInfo.name}</div>
-          <div>{courseInfo.description}</div>
-          <div>{courseInfo.instructor}</div>
-          <div>{courseInfo.category}</div>
-        </div>
-      ) : (
-        <div>Course deatails not found</div>
-      )}
-    </div>
+    <Container>
+      <Row>
+        <Col className="d-flex justify-content-around mt-3" >
+          <h1>Welcome {userInfo.firstName}</h1>
+          <Button variant="outline-primary" onClick={handleLogoutClick}>Logout</Button>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          {courseInfo?._id ? (
+            <div>
+              <div>Name : {courseInfo.name}</div>
+              <div>Description : {courseInfo.description}</div>
+              <div>Instructor : {courseInfo.instructor}</div>
+              <div>Category: {courseInfo.category}</div>
+            </div>
+          ) : (
+            <div>Course deatails not found</div>
+          )}</Col>
+      </Row>
+    </Container>
   );
 };
 

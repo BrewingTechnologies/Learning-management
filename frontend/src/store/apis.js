@@ -45,7 +45,7 @@ export const updatePassword = (data) => {
   return new Promise((resolve) => {
     axios
       .put(`${API_URL}users/update-password`, { ...data })
-      .then((res) => res.data)
+      .then((res) => resolve(res.data))
       .catch((err) => resolve(err));
   });
 };
@@ -53,7 +53,7 @@ export const updatePassword = (data) => {
 export const fetchInstructorCourses = (id) => {
   return new Promise((resolve) => {
     axios
-      .get(`${API_URL}courses/${id}/instructore`)
+      .get(`${API_URL}courses/${id}/instructor`)
       .then((res) => {
         resolve(res.data);
       })

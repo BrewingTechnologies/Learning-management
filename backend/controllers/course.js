@@ -98,7 +98,7 @@ const coursesByCategory = async (req) => {
 
 const getCoursesOfInstructor = async (req) => {
   try {
-    return await CoursesModel.find({ user: req.params.instructorId })
+    return await CoursesModel.find({ user: req.params.instructorId }).populate('user')
   } catch (error) {
     console.log(error.message)
     return Boom.badRequest(error.message)
