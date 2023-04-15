@@ -47,7 +47,7 @@ const Dashboard = (props) => {
         }}
         key={`${course._id}`}
       >
-        <Card style={{ width: '25rem' }}>
+        <Card style={{ width: '25rem', marginTop: '10px' }}>
           <Card.Body>
             <Card.Title className="text-primary text-center p-2" >Course Details</Card.Title>
             <Card.Text>Name: {course.name}</Card.Text>

@@ -1,7 +1,14 @@
 const Boom = require('@hapi/boom')
 const CoursesModel = require('../models/course')
 
-const cloudinary = require('cloudinary')
+const cloudinary = require('cloudinary').v2
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET_KEY,
+  secure: true
+})
 
 const createCourse = async (req) => {
   try {
@@ -14,7 +21,7 @@ const createCourse = async (req) => {
 
 const courseDetails = async (req) => {
   try {
-    return await CoursesModel.findOne({ _id: req.params.courseId })
+    return await CoursesModel.findOne({ _id: req.params.courseId }).populate('user')
   } catch (error) {
     console.log(error.message)
     return Boom.badRequest(error.message)
@@ -151,19 +158,25 @@ const uploadThumbNail = async (req) => {
       use_filename: true,
       unique_filename: false,
       overwrite: true,
-      folder: 'course'
+      folder: 'course-profile'
     }
 
-    let fileData
-    const course = await CoursesModel.findOne({ _id: req.params.courseId })
-    if (!course) {
-      return Boom.notFound("User with this Id doesn't exists")
+    const { file } = req.query
+
+    const user = await CoursesModel.findOne({ _id: req.params.courseId })
+    if (!user) {
+      return Boom.notFound("Course with this Id doesn't exists")
     }
 
-    await cloudinary.uploader.upload_stream(options, async (_err, image) => {
-      fileData = await CoursesModel.findByIdAndUpdate({ _id: course._id }, { thumbnail: image.url }, { new: true })
+    if (file) {
+      return await cloudinary.uploader.upload_stream(options, async function (_error, result) {
+        await CoursesModel.findByIdAndUpdate({ _id: user._id }, { file: result.url }, { new: true })
+      }).end(req?.payload?.file?._data)
+    }
+
+    return await cloudinary.uploader.upload_stream(options, async function (_error, result) {
+      await CoursesModel.findByIdAndUpdate({ _id: user._id }, { thumbnail: result.url }, { new: true })
     }).end(req?.payload?.file?._data)
-    return fileData
   } catch (error) {
     console.log(error.message)
     return Boom.badRequest(error.message)

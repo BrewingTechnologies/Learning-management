@@ -4,6 +4,7 @@ import { handleLogout, userInfo } from "../../utils/authentication";
 import { getCourseDetails } from "../../store/apis";
 
 import { Container, Row, Col, Button } from 'react-bootstrap';
+import Header from '../Header/Header';
 
 const Course = (props) => {
   const history = useHistory();
@@ -26,27 +27,38 @@ const Course = (props) => {
   };
 
   return (
-    <Container>
-      <Row>
-        <Col className="d-flex justify-content-around mt-3" >
-          <h1>Welcome {userInfo.firstName}</h1>
-          <Button variant="outline-primary" onClick={handleLogoutClick}>Logout</Button>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          {courseInfo?._id ? (
-            <div>
-              <div>Name : {courseInfo.name}</div>
-              <div>Description : {courseInfo.description}</div>
-              <div>Instructor : {courseInfo.instructor}</div>
-              <div>Category: {courseInfo.category}</div>
-            </div>
-          ) : (
-            <div>Course deatails not found</div>
-          )}</Col>
-      </Row>
-    </Container>
+    <>
+      <Header />
+      <Container>
+        <Row>
+          <Col className="d-flex justify-content-around mt-3" >
+            <h4>Welcome {userInfo.firstName}</h4>
+            <Button variant="outline-danger" onClick={handleLogoutClick}>Logout</Button>
+          </Col>
+        </Row>
+        <Row>
+          <Col className="shadow-lg mt-3" >
+            {courseInfo?._id ? (
+              <div className="text-center mt-3" >
+                <h4 className="text-primary" >Course Details</h4>
+                <img height={600} width={1200} className="rounded shadow-lg p-2" src={courseInfo.thumbnail} alt='Image' />
+                <div className="d-flex justify-content-evenly align-items-center align-content-center mt-3"  >
+                  <div>
+                    <p>Name : {courseInfo.name}</p>
+                    <p>Description : {courseInfo.description}</p>
+                  </div>
+                  <div>
+                    <p>Instructor : {courseInfo.user?.firstName}</p>
+                    <p>Category: {courseInfo.category}</p>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div>Course deatails not found</div>
+            )}</Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 

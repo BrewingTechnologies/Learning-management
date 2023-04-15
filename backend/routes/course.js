@@ -219,10 +219,10 @@ module.exports = [
   },
   {
     method: 'PUT',
-    path: '/courses/{courseId}/thumbnail',
+    path: '/courses/{courseId}/thumbnailOrFile',
     handler: courseControllers.uploadThumbNail,
     options: {
-      description: 'upload course thumbnail',
+      description: 'upload course thumbnail based on condition',
       tags: ['api', 'courses'],
       // auth: { strategy: 'default', scope: ['STUDENT', 'ADMIN', 'INSTRUCTOR'] },
       payload: {

@@ -87,7 +87,7 @@ db.on('error', (err) => {
 })
 
 db.on('disconnected', () => {
-  console.log('Connection teminated to DB')
+  console.log('Connection terminated to DB')
   process.exit(0)
 })
 
