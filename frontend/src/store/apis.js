@@ -34,12 +34,44 @@ export const fetchAllCourses = () => {
 
 export const resetForgotPassword = (email) => {
   return new Promise((resolve, reject) => {
-    axios.put(`${API_URL}users/forgot-password-otp`, { email }).then((res) => resolve(res.data)).catch((err) => reject(err));
-  })
-}
+    axios
+      .put(`${API_URL}users/forgot-password-otp`, { email })
+      .then((res) => resolve(res.data))
+      .catch((err) => reject(err));
+  });
+};
 
 export const updatePassword = (data) => {
   return new Promise((resolve) => {
-    axios.put(`${API_URL}users/update-password`, { ...data }).then((res) => res.data).catch((err) => resolve(err))
-  })
-}
+    axios
+      .put(`${API_URL}users/update-password`, { ...data })
+      .then((res) => res.data)
+      .catch((err) => resolve(err));
+  });
+};
+
+export const fetchInstructorCourses = (id) => {
+  return new Promise((resolve) => {
+    axios
+      .get(`${API_URL}courses/${id}/instructore`)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        resolve([]);
+      });
+  });
+};
+
+export const getCourseDetails = (courseId) => {
+  return new Promise((resolve) => {
+    axios
+      .get(`${API_URL}courses/${courseId}`)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        resolve();
+      });
+  });
+};
