@@ -20,5 +20,5 @@ export function getLogoutURL() {
   const roleKey = Object.keys(Roles || {}).find(
     (rKey) => Roles[rKey] === getRole()
   );
-  return `/login/${roleKey}`;
+  return `/login/${roleKey || "admin"}`;
 }

@@ -3,7 +3,7 @@
  */
 const Roles = {
   admin: "ADMIN",
-  instructore: "INSTRUCTOR",
+  instructor: "INSTRUCTOR",
   student: "STUDENT",
 };
 

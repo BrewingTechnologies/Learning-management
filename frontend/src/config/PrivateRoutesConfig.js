@@ -1,3 +1,4 @@
+import Course from "../routes/student/Course";
 import Dashboard from "../routes/student/dashboard/Dashboard";
 // import Roles from "./Roles";
 
@@ -17,6 +18,12 @@ const PrivateRoutesConfig = [
     component: Dashboard,
     path: "/dashboard",
     title: "Dashboard",
+    permission: [],
+  },
+  {
+    component: Course,
+    path: "/:course",
+    title: "Course",
     permission: [],
   },
 ];

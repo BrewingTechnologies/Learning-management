@@ -54,13 +54,14 @@ export function setUnAuthenticationInterceptor() {
 export function decodeUserInfo(token) {
   if (!token) {
     token = localStorage.getItem("data");
+    token = JSON.parse(token);
   }
   if (!token) {
     userInfo = {};
     setRole(null);
     return userInfo;
   } else {
-    userInfo = JSON.parse(token);
+    userInfo = token;
     setRole(userInfo.role);
     setUnAuthenticationInterceptor();
     setCommonHeaders({ authorization: token.authToken });
