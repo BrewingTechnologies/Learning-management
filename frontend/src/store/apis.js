@@ -75,3 +75,11 @@ export const getCourseDetails = (courseId) => {
       });
   });
 };
+
+
+export const updateUserBookmark = (data) => {
+  return new Promise((resolve) => {
+    axios.put(`${API_URL}courses/bookmark/${data.userId}?isFav=${data.bookmark}`).then((res) => resolve(res.data)).catch((err) => resolve(err))
+  })
+
+}

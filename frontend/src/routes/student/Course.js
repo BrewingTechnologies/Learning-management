@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { handleLogout, userInfo } from "../../utils/authentication";
-import { getCourseDetails } from "../../store/apis";
+import { getCourseDetails, updateUserBookmark } from "../../store/apis";
 
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import Header from '../Header/Header';
@@ -12,7 +12,7 @@ const Course = (props) => {
   const { courseId } = match.params;
   const [courseInfo, setCourseInfo] = useState();
 
-  const fetchCourseDetails = async () => {
+    const fetchCourseDetails = async () => {
     const data = await getCourseDetails(courseId);
     setCourseInfo(data);
   };
@@ -55,7 +55,8 @@ const Course = (props) => {
               </div>
             ) : (
               <div>Course deatails not found</div>
-            )}</Col>
+            )}
+          </Col>
         </Row>
       </Container>
     </>

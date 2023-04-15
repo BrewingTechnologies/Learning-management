@@ -86,6 +86,11 @@ const studentLogin = async (req) => {
     if (!student) {
       return Boom.forbidden("User with this email doesn't exists")
     }
+
+    if (student.verified !== true) {
+      return Boom.forbidden('You are not verified user, Please verify your OTP to continue....')
+    }
+
     if (student.email === email && await bcrypt.compare(password, student.password)) {
       const token = jwt.sign({ user: student._id }, 'secret', { expiresIn: '1d' })
       return await StudentsModel.findOneAndUpdate({ _id: student._id }, { authToken: token }, { new: true }).select(['-OTP', '-password', '-verified', '-__v'])
