@@ -5,7 +5,7 @@ import { handleLogin } from "../utils/authentication";
 
 const API_URL = config.RestServiceURL;
 
-export const loginUser = async (userData) => {
+export const loginUser = (userData) => {
   return new Promise((resolve) => {
     axios
       .post(`${API_URL}users/login`, userData)
@@ -31,3 +31,15 @@ export const fetchAllCourses = () => {
       });
   });
 };
+
+export const resetForgotPassword = (email) => {
+  return new Promise((resolve, reject) => {
+    axios.put(`${API_URL}users/forgot-password-otp`, { email }).then((res) => resolve(res.data)).catch((err) => reject(err));
+  })
+}
+
+export const updatePassword = (data) => {
+  return new Promise((resolve) => {
+    axios.put(`${API_URL}users/update-password`, { ...data }).then((res) => res.data).catch((err) => resolve(err))
+  })
+}

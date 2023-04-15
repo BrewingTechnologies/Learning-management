@@ -15,6 +15,8 @@ const studentSchema = new Schema({
     type: String,
     enum: ['STUDENT', 'ADMIN', 'INSTRUCTOR']
   }
+}, {
+  timestamps: true
 })
 
 module.exports = mongoose.model('student', studentSchema)

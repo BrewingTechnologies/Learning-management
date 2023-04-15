@@ -12,6 +12,8 @@ const courseSchema = new Schema({
   duration: String,
   isEnrolled: Boolean,
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'student' }
+}, {
+  timestamps: true
 })
 
 module.exports = mongoose.model('course', courseSchema)

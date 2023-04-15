@@ -88,7 +88,7 @@ const studentLogin = async (req) => {
     }
     if (student.email === email && await bcrypt.compare(password, student.password)) {
       const token = jwt.sign({ user: student._id }, 'secret', { expiresIn: '1d' })
-      return await StudentsModel.findByIdAndUpdate({ _id: student._id }, { authToken: token }, { new: true })
+      return await StudentsModel.findOneAndUpdate({ _id: student._id }, { authToken: token }, { new: true }).select(['-OTP', '-password', '-verified', '-__v'])
     }
     return Boom.notAcceptable('Oops.!! Invalid Credentials, Please provide the valid details')
   } catch (error) {

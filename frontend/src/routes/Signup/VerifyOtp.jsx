@@ -14,7 +14,8 @@ const VerifyOtp = (props) => {
 
   const history = useHistory();
 
-  const { show, user } = props;
+  const { show, userId } = props;
+
 
   const dispatch = useDispatch();
 
@@ -22,7 +23,6 @@ const VerifyOtp = (props) => {
     otp: '',
     userId: ''
   });
-  console.log(verifyUser);
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(userVerifyOtp(verifyUser))
@@ -30,26 +30,39 @@ const VerifyOtp = (props) => {
 
   useEffect(() => {
     if (state?.user?.success && state?.isSuccess) {
-      history.push('/')
+      history.push('/dashboard')
       toast.success(state?.user?.message);
     }
   }, [state?.user, state?.isSuccess, history]);
 
 
   return (
-    <Container style={show ? {
-      display: 'block', position: 'absolute', top: 0, left: '50%',
-      transform: 'translate(-50%, 0)',
-      background: 'gray'
-    } : { display: 'none' }} >
+    <Container style={show ? styles : { display: 'none' }} >
       <Row>
-        <Col sm={12} className='d-flex flex-column justify-content-center align-items-center vh-100' >
-          <input onChange={(e) => setVerifyUser({ otp: e.target.value, userId: user })} type="number" className='form-control w-25' placeholder='Please verify your otp....' />
-          <Button variant='outline-primary' className='w-25 mt-3' onClick={submitHandler} >Submit</Button>
+        <Col sm={12} className='d-flex flex-column justify-content-evenly align-items-center' >
+          <h4 className='text-white mb-4' >Verify otp</h4>
+          <input onChange={(e) => setVerifyUser({ otp: e.target.value, userId })} type="number" className='form-control' placeholder='Please verify your otp....' />
+          <Button variant='outline-success' className='w-100 mt-3' onClick={submitHandler} >Submit</Button>
         </Col>
       </Row>
     </Container>
   )
 }
+
+const styles = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  alignContent: 'center',
+  height: '400px',
+  width: '800px',
+  borderRadius: '20px',
+  backgroundColor: '#21122e',
+  position: 'absolute',
+  top: '30%',
+  left: '50%',
+  transform: 'translate(-50%, 0)',
+}
+
 
 export default VerifyOtp
