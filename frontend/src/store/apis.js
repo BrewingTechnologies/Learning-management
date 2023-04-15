@@ -14,7 +14,21 @@ export const loginUser = async (userData) => {
         resolve(true);
       })
       .catch((err) => {
+        console.log("err", err.response, err);
         resolve(false);
+      });
+  });
+};
+
+export const fetchInstructorCourses = (id) => {
+  return new Promise((resolve) => {
+    axios
+      .get(`${API_URL}courses/${id}/instructore`)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        resolve([]);
       });
   });
 };
@@ -28,6 +42,19 @@ export const fetchAllCourses = () => {
       })
       .catch((err) => {
         resolve([]);
+      });
+  });
+};
+
+export const getCourseDetails = (courseId) => {
+  return new Promise((resolve) => {
+    axios
+      .get(`${API_URL}courses/${courseId}`)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        resolve();
       });
   });
 };

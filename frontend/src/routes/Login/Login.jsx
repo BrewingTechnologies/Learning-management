@@ -2,14 +2,14 @@ import React, { useState,  } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
-// import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { loginUser } from '../../store/apis';
 
 
 const Login = () => {
 
 
-  //const history = useHistory()
+  const history = useHistory()
 
   const [userInfo, setUserInfo] = useState({
     email: '',
@@ -20,7 +20,7 @@ const Login = () => {
     e.preventDefault();
    const status = await loginUser(userInfo)
    if(status){
-    //history.push('/app/dashboard')
+    history.replace('/app/dashboard')
    }
   }
 
