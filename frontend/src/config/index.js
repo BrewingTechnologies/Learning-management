@@ -1,5 +1,5 @@
 const config = {
-  RestServiceURL: "http://localhost:4000/",
+  RestServiceURL: "http://localhost:4000",
 };
 
 export default config;

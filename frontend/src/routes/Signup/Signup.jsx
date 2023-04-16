@@ -66,7 +66,7 @@ const Signup = () => {
 
   return (
     <>
-      <div style={show ? { filter: 'blur(2px)' } : { display: '' }} >
+      <div style={show ? { filter: 'blur(2px)', backgroundColor: "gray" } : { display: '' }} >
         <Container fluid >
           <Row>
             <Col className='bg-success text-center p-1 d-flex justify-content-evenly align-items-center align-content-center' >

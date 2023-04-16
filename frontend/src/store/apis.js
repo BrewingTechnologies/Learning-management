@@ -8,7 +8,7 @@ const API_URL = config.RestServiceURL;
 export const loginUser = (userData) => {
   return new Promise((resolve) => {
     axios
-      .post(`${API_URL}users/login`, userData)
+      .post(`${API_URL}/users/login`, userData)
       .then((res) => {
         handleLogin(res.data);
         resolve(true);
@@ -22,7 +22,7 @@ export const loginUser = (userData) => {
 export const fetchAllCourses = () => {
   return new Promise((resolve) => {
     axios
-      .get(`${API_URL}courses`)
+      .get(`${API_URL}/courses`)
       .then((res) => {
         resolve(res.data);
       })
@@ -35,7 +35,7 @@ export const fetchAllCourses = () => {
 export const resetForgotPassword = (email) => {
   return new Promise((resolve, reject) => {
     axios
-      .put(`${API_URL}users/forgot-password-otp`, { email })
+      .put(`${API_URL}/users/forgot-password-otp`, { email })
       .then((res) => resolve(res.data))
       .catch((err) => reject(err));
   });
@@ -44,7 +44,7 @@ export const resetForgotPassword = (email) => {
 export const updatePassword = (data) => {
   return new Promise((resolve) => {
     axios
-      .put(`${API_URL}users/update-password`, { ...data })
+      .put(`${API_URL}/users/update-password`, { ...data })
       .then((res) => resolve(res.data))
       .catch((err) => resolve(err));
   });
@@ -53,7 +53,7 @@ export const updatePassword = (data) => {
 export const fetchInstructorCourses = (id) => {
   return new Promise((resolve) => {
     axios
-      .get(`${API_URL}courses/${id}/instructor`)
+      .get(`${API_URL}/courses/${id}/instructor`)
       .then((res) => {
         resolve(res.data);
       })
@@ -66,7 +66,7 @@ export const fetchInstructorCourses = (id) => {
 export const getCourseDetails = (courseId) => {
   return new Promise((resolve) => {
     axios
-      .get(`${API_URL}courses/${courseId}`)
+      .get(`${API_URL}/courses/${courseId}`)
       .then((res) => {
         resolve(res.data);
       })
@@ -77,9 +77,15 @@ export const getCourseDetails = (courseId) => {
 };
 
 
+export const addCourse = (data) => {
+  return new Promise((resolve) => {
+    axios.post(`${API_URL}/courses`, data).then((res) => resolve(res.data)).catch((err) => resolve(err));
+  })
+}
+
 export const updateUserBookmark = (data) => {
   return new Promise((resolve) => {
-    axios.put(`${API_URL}courses/bookmark/${data.userId}?isFav=${data.bookmark}`).then((res) => resolve(res.data)).catch((err) => resolve(err))
+    axios.put(`${API_URL}/courses/bookmark/${data.userId}?isFav=${data.bookmark}`).then((res) => resolve(res.data)).catch((err) => resolve(err))
   })
 
 }

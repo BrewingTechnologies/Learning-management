@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
+import { addCourse } from '../../store/apis'
+import { ToastContainer, toast } from 'react-toastify'
 
 const AddCourse = (props) => {
 
@@ -15,8 +17,15 @@ const AddCourse = (props) => {
   })
 
 
-  const submitHandler = () => {
-    console.log(course);
+  const user = JSON.parse(localStorage.getItem('data'));
+
+
+  const submitHandler = async () => {
+    const status = await addCourse({ ...course, user: user?._id });
+    if (status) {
+      handlerClose(false);
+      toast.success('Course added successfully..!')
+    }
   }
 
 
@@ -68,6 +77,7 @@ const AddCourse = (props) => {
           Close
         </Button>
       </div>
+      <ToastContainer />
     </Form>
   )
 }

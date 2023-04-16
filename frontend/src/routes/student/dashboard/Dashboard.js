@@ -70,7 +70,7 @@ const Dashboard = (props) => {
   return (
     <>
       <Header />
-      <Container fluid >
+      <Container style={addCourse ? { filter: 'blur(5px)', backgroundColor: "gray" } : {}} fluid >
         <Row>
           <Col>
             <div className='d-flex justify-content-around align-items-center align-content-center'>
@@ -91,12 +91,8 @@ const Dashboard = (props) => {
             )}
           </Col>
         </Row>
-        <Row>
-          <Col>
-            {addCourse && <AddCourse handlerClose={handlerClose} />}
-          </Col>
-        </Row>
       </Container>
+      {addCourse && <AddCourse handlerClose={handlerClose} />}
     </>
   );
 };
