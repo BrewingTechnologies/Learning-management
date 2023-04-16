@@ -83,6 +83,13 @@ export const addCourse = (data) => {
   })
 }
 
+export const deleteCourse = (data) => {
+  return new Promise((resolve) => {
+    axios.delete(`${API_URL}/courses/${data.courseId}`).then((res) => resolve(res.data)).catch((err) => resolve(err));
+  })
+}
+
+
 export const updateUserBookmark = (data) => {
   return new Promise((resolve) => {
     axios.put(`${API_URL}/courses/bookmark/${data.userId}?isFav=${data.bookmark}`).then((res) => resolve(res.data)).catch((err) => resolve(err))

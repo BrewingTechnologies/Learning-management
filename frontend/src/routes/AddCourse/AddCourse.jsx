@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
 import { addCourse } from '../../store/apis'
 import { ToastContainer, toast } from 'react-toastify'
+import { userInfo } from '../../utils/authentication'
 
 const AddCourse = (props) => {
 
@@ -16,15 +17,11 @@ const AddCourse = (props) => {
     duration: '',
   })
 
-
-  const user = JSON.parse(localStorage.getItem('data'));
-
-
   const submitHandler = async () => {
-    const status = await addCourse({ ...course, user: user?._id });
+    const status = await addCourse({ ...course, user: userInfo?._id });
     if (status) {
-      handlerClose(false);
       toast.success('Course added successfully..!')
+      handlerClose(false);
     }
   }
 

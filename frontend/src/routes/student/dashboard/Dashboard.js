@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { getRole, handleLogout, userInfo } from "../../../utils/authentication";
-import { fetchAllCourses, fetchInstructorCourses } from "../../../store/apis";
+import { fetchAllCourses, fetchInstructorCourses, deleteCourse } from "../../../store/apis";
 import Roles from "../../../config/Roles";
 import AddCourse from "../../AddCourse/AddCourse";
 import Header from '../../Header/Header';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
+import DeleteCourse from "../../DeleteCourse/DeleteCourse";
+
 
 
 const Dashboard = (props) => {
@@ -14,6 +16,7 @@ const Dashboard = (props) => {
   const history = useHistory();
 
   const [addCourse, setAddCourse] = useState(false);
+  const [deleteCourse, setDeleteCourse] = useState(false);
 
 
   const fetchCourses = async () => {
@@ -38,6 +41,10 @@ const Dashboard = (props) => {
     history.replace(url);
   };
 
+  const deletePopUp = () => {
+    setDeleteCourse(true);
+  }
+
   const displayCourse = (course) => {
     return (
       <div
@@ -54,8 +61,8 @@ const Dashboard = (props) => {
             <Card.Text>Description : {course.description}</Card.Text>
             <Card.Text>Instructor:  {course.user?.firstName}</Card.Text>
             <Card.Text>Category:  {course.category}</Card.Text>
-            <div className="text-center" >
-              <Button variant="primary">View Course</Button>
+            <div className="text-center d-flex justify-content-around" >
+              <Button variant="success">View Course</Button>
             </div>
           </Card.Body>
         </Card>
@@ -66,6 +73,12 @@ const Dashboard = (props) => {
   const handlerClose = (data) => {
     setAddCourse(data);
   }
+
+  const courseDelete = (data) => {
+    setDeleteCourse(data);
+  }
+
+
 
   return (
     <>
@@ -80,6 +93,7 @@ const Dashboard = (props) => {
           </Col>
           <div className="text-center" >
             <Button className="m-5" onClick={() => setAddCourse(true)} variant="outline-primary">Add Course</Button>
+            <Button onClick={deletePopUp} variant="danger">Delete Course</Button>
           </div>
         </Row>
         <Row>
@@ -93,6 +107,7 @@ const Dashboard = (props) => {
         </Row>
       </Container>
       {addCourse && <AddCourse handlerClose={handlerClose} />}
+      {deleteCourse && <DeleteCourse deleteCourse={deleteCourse} courseDelete={courseDelete} />}
     </>
   );
 };
