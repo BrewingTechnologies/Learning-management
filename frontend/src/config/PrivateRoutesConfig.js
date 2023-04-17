@@ -15,15 +15,15 @@ import Dashboard from "../routes/student/dashboard/Dashboard";
 
 const PrivateRoutesConfig = [
   {
-    component: Dashboard,
-    path: "",
-    title: "Dashboard",
-    permission: [],
-  },
-  {
     component: Course,
     path: "/:course",
     title: "Course",
+    permission: [],
+  },
+  {
+    component: Dashboard,
+    path: "",
+    title: "Dashboard",
     permission: [],
   },
 ];

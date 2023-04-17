@@ -5,14 +5,14 @@ import {
   fetchAllCourses,
   fetchInstructorCourses,
   deleteUserCourse,
-  updateUserBookmark
+  updateUserBookmark,
 } from "../../../store/apis";
 import Roles from "../../../config/Roles";
 import AddCourse from "../../AddCourse/AddCourse";
 import Header from "../../Header/Header";
 import { Container, Row, Col, Button, Card } from "react-bootstrap";
 import DeleteCourse from "../../DeleteCourse/DeleteCourse";
-import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
+import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 
 const Dashboard = (props) => {
   const [courses, setCourses] = useState([]);
@@ -39,26 +39,47 @@ const Dashboard = (props) => {
     fetchCourses();
   }, []);
 
-  const deletePopUp = async () => {
-    setDeleteCourse(true);
+  const deletePopUp = async (courseId, isDeleted) => {
+    if (isDeleted) {
+      setCourses([...courses.filter((course) => course._id !== deleteCourse)]);
+    }
+    setDeleteCourse(courseId);
     // await deleteCourse();
   };
 
   const handleUpdateBookmark = async ({ courseId, bookmarked }) => {
-    await updateUserBookmark({ courseId, bookmark: !bookmarked })
-  }
+    await updateUserBookmark({ courseId, bookmark: !bookmarked });
+  };
 
   const displayCourse = (course) => {
     return (
       <div key={`${course._id}`}>
         <Card style={{ width: "25rem", margin: "16px" }}>
           <Card.Body>
-            <div className="d-flex justify-content-evenly align-items-center" >
+            <div className='d-flex justify-content-evenly align-items-center'>
               <Card.Title className='text-primary text-center p-2'>
                 {course.name}
               </Card.Title>
               <Card.Title>
-                {course.bookmark ? <AiFillStar onClick={() => { handleUpdateBookmark({ courseId: course._id, bookmarked: course.bookmark }) }} /> : <AiOutlineStar onClick={() => handleUpdateBookmark({ courseId: course._id, bookmarked: course.bookmark })} />}
+                {course.bookmark ? (
+                  <AiFillStar
+                    onClick={() => {
+                      handleUpdateBookmark({
+                        courseId: course._id,
+                        bookmarked: course.bookmark,
+                      });
+                    }}
+                  />
+                ) : (
+                  <AiOutlineStar
+                    onClick={() =>
+                      handleUpdateBookmark({
+                        courseId: course._id,
+                        bookmarked: course.bookmark,
+                      })
+                    }
+                  />
+                )}
               </Card.Title>
             </div>
             <Card.Text>Description : {course.description}</Card.Text>
@@ -74,7 +95,10 @@ const Dashboard = (props) => {
                 View Course
               </Button>
               {[Roles.admin, Roles.instructor].includes(userInfo.role) && (
-                <Button onClick={deletePopUp} variant='danger'>
+                <Button
+                  onClick={() => deletePopUp(course._id)}
+                  variant='danger'
+                >
                   Delete Course
                 </Button>
               )}
@@ -85,8 +109,9 @@ const Dashboard = (props) => {
     );
   };
 
-  const handlerClose = (data) => {
-    setAddCourse(data);
+  const handlerClose = (isAdd, courseData) => {
+    setAddCourse(isAdd);
+    setCourses([...courses, courseData]);
   };
 
   const courseDelete = (data) => {
@@ -118,7 +143,7 @@ const Dashboard = (props) => {
         <Row>
           <Col>
             {!loading && (
-              <div className='d-flex justify-content-center flex-wrap'>
+              <div className='d-flex flex-wrap ml-1 mr-1'>
                 {courses.map((course) => displayCourse(course))}
               </div>
             )}
@@ -127,7 +152,7 @@ const Dashboard = (props) => {
       </Container>
       {addCourse && <AddCourse handlerClose={handlerClose} />}
       {deleteCourse && (
-        <DeleteCourse deleteCourse={deleteCourse} courseDelete={courseDelete} />
+        <DeleteCourse deleteCourse={deleteCourse} courseDelete={deletePopUp} />
       )}
     </>
   );

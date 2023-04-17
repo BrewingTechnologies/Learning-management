@@ -22,10 +22,10 @@ const Header = () => {
           <div className='d-flex justify-content-around align-items-center align-content-center p-3 text-white'>
             <div className='d-flex align-items-center' >
               <img height={60} src={Logo} alt="Logo" />
-              <h5 className='text-white' >Learning Management</h5>
+              <h5 className='text-white'>Learning Management</h5>
             </div>
-            <p>Welcome {userInfo.firstName}</p>
-            <Button variant='outline-danger' onClick={handleLogoutClick}>
+            <h3>Welcome {userInfo.firstName}</h3>
+            <Button variant='btn btn-outline-light' onClick={handleLogoutClick}>
               Logout
             </Button>
           </div>

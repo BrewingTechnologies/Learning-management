@@ -76,23 +76,31 @@ export const getCourseDetails = (courseId) => {
   });
 };
 
-
 export const addCourse = (data) => {
   return new Promise((resolve) => {
-    axios.post(`${API_URL}/courses`, data).then((res) => resolve(res.data)).catch((err) => resolve(err));
-  })
-}
+    axios
+      .post(`${API_URL}/courses`, data)
+      .then((res) => resolve({ status: true, data: res.data }))
+      .catch((err) => resolve({ status: false }));
+  });
+};
 
 export const deleteUserCourse = (data) => {
   return new Promise((resolve) => {
-    axios.delete(`${API_URL}/courses/${data}`).then((res) => resolve(res.data)).catch((err) => resolve(err));
-  })
-}
-
+    axios
+      .delete(`${API_URL}/courses/${data}`)
+      .then((res) => resolve(true))
+      .catch((err) => resolve(false));
+  });
+};
 
 export const updateUserBookmark = (data) => {
   return new Promise((resolve) => {
-    axios.put(`${API_URL}/courses/${data.courseId}/bookmark/${userInfo._id}?isFav=${data.bookmark}`).then((res) => resolve(res.data)).catch((err) => resolve(err))
-  })
-
-}
+    axios
+      .put(
+        `${API_URL}/courses/${data.courseId}/bookmark/${userInfo._id}?isFav=${data.bookmark}`
+      )
+      .then((res) => resolve(res.data))
+      .catch((err) => resolve(err));
+  });
+};
