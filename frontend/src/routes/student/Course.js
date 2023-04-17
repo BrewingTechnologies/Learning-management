@@ -46,8 +46,8 @@ const Course = (props) => {
                 <h4 className='text-primary'>Course Details</h4>
                 {courseInfo.thumbnail && (
                   <img
-                    height={600}
-                    width={1200}
+                    height={300}
+                    width={500}
                     className='rounded shadow-lg p-2'
                     src={courseInfo.thumbnail}
                     alt='Thumbnail'
