@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import config from "../config/index";
-import { handleLogin } from "../utils/authentication";
+import { handleLogin, userInfo } from "../utils/authentication";
 
 const API_URL = config.RestServiceURL;
 
@@ -83,16 +83,16 @@ export const addCourse = (data) => {
   })
 }
 
-export const deleteCourse = (data) => {
+export const deleteUserCourse = (data) => {
   return new Promise((resolve) => {
-    axios.delete(`${API_URL}/courses/${data.courseId}`).then((res) => resolve(res.data)).catch((err) => resolve(err));
+    axios.delete(`${API_URL}/courses/${data}`).then((res) => resolve(res.data)).catch((err) => resolve(err));
   })
 }
 
 
 export const updateUserBookmark = (data) => {
   return new Promise((resolve) => {
-    axios.put(`${API_URL}/courses/bookmark/${data.userId}?isFav=${data.bookmark}`).then((res) => resolve(res.data)).catch((err) => resolve(err))
+    axios.put(`${API_URL}/courses/${data.courseId}/bookmark/${userInfo._id}?isFav=${data.bookmark}`).then((res) => resolve(res.data)).catch((err) => resolve(err))
   })
 
 }

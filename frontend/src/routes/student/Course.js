@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { handleLogout, userInfo } from "../../utils/authentication";
-import { getCourseDetails, updateUserBookmark } from "../../store/apis";
+import { getCourseDetails,} from "../../store/apis";
 
 import { Container, Row, Col, Button } from "react-bootstrap";
 import Header from "../Header/Header";
@@ -22,10 +22,9 @@ const Course = (props) => {
     fetchCourseDetails();
   }, []);
 
-  const handleLogoutClick = async () => {
-    const url = await handleLogout();
-    history.replace(url);
-  };
+  const enrollHandler = () => {
+
+  }
 
   return (
     <>
@@ -34,7 +33,7 @@ const Course = (props) => {
         {Roles.student === userInfo.role && (
           <Row>
             <Col className='d-flex justify-content-end mt-3'>
-              <Button>Enroll</Button>
+              <Button onClick={enrollHandler} variant="outline-success" >Enroll</Button>
             </Col>
           </Row>
         )}

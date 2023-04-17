@@ -123,7 +123,7 @@ module.exports = [
   },
   {
     method: 'GET',
-    path: '/courses/stundet/{userId}/enrolled',
+    path: '/courses/{userId}/enrolled',
     handler: courseControllers.studentEnrolledCourses,
     options: {
       description: 'Student enrolled courses',
@@ -138,21 +138,6 @@ module.exports = [
   },
   {
     method: 'PUT',
-    path: '/courses/category',
-    handler: courseControllers.coursesByCategory,
-    options: {
-      description: 'Get all courses by category',
-      tags: ['api', 'courses'],
-      // auth: { strategy: 'default', scope: ['ADMIN', 'STUDENT'] },
-      validate: {
-        payload: Joi.object({
-          category: Joi.string().required()
-        })
-      }
-    }
-  },
-  {
-    method: 'POST',
     path: '/courses/category',
     handler: courseControllers.coursesByCategory,
     options: {
@@ -183,7 +168,7 @@ module.exports = [
   },
   {
     method: 'PUT',
-    path: '/courses/enrollment/{userId}',
+    path: '/courses/{courseId}/enrollment/{userId}',
     handler: courseControllers.updateCourseEnrollmentOfStundet,
     options: {
       description: 'Update Stundet course enrollment',
@@ -191,7 +176,8 @@ module.exports = [
       // auth: { strategy: 'default', scope: ['STUDENT'] },
       validate: {
         params: Joi.object({
-          userId: Joi.string().required()
+          userId: Joi.string().required(),
+          courseId: Joi.string().required()
         }),
         query: Joi.object({
           isEnrolled: Joi.boolean().valid(true, false)
@@ -201,14 +187,15 @@ module.exports = [
   },
   {
     method: 'PUT',
-    path: '/courses/bookmark/{userId}',
-    handler: courseControllers.updateCourseEnrollmentOfStundet,
+    path: '/courses/{courseId}/bookmark',
+    handler: courseControllers.courseBookmarks,
     options: {
       description: 'Update Stundet Fav course',
       tags: ['api', 'courses'],
       // auth: { strategy: 'default', scope: ['STUDENT'] },
       validate: {
         params: Joi.object({
+          courseId: Joi.string().required(),
           userId: Joi.string().required()
         }),
         query: Joi.object({

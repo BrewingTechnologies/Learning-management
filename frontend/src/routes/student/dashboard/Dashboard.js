@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { getRole, handleLogout, userInfo } from "../../../utils/authentication";
+import { getRole, userInfo } from "../../../utils/authentication";
 import {
   fetchAllCourses,
   fetchInstructorCourses,
-  deleteCourse,
+  deleteUserCourse,
+  updateUserBookmark
 } from "../../../store/apis";
 import Roles from "../../../config/Roles";
 import AddCourse from "../../AddCourse/AddCourse";
 import Header from "../../Header/Header";
 import { Container, Row, Col, Button, Card } from "react-bootstrap";
 import DeleteCourse from "../../DeleteCourse/DeleteCourse";
+import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 
 const Dashboard = (props) => {
   const [courses, setCourses] = useState([]);
@@ -37,24 +39,28 @@ const Dashboard = (props) => {
     fetchCourses();
   }, []);
 
-  const handleLogoutClick = async () => {
-    const url = await handleLogout();
-    history.replace(url);
+  const deletePopUp = async () => {
+    setDeleteCourse(true);
+    // await deleteCourse();
   };
 
-  const deletePopUp = () => {
-    setDeleteCourse(true);
-  };
+  const handleUpdateBookmark = async ({ courseId, bookmarked }) => {
+    await updateUserBookmark({ courseId, bookmark: !bookmarked })
+  }
 
   const displayCourse = (course) => {
     return (
       <div key={`${course._id}`}>
         <Card style={{ width: "25rem", margin: "16px" }}>
           <Card.Body>
-            <Card.Title className='text-primary text-center p-2'>
-              Course Details
-            </Card.Title>
-            <Card.Text>Name: {course.name}</Card.Text>
+            <div className="d-flex justify-content-evenly align-items-center" >
+              <Card.Title className='text-primary text-center p-2'>
+                {course.name}
+              </Card.Title>
+              <Card.Title>
+                {course.bookmark ? <AiFillStar onClick={() => { handleUpdateBookmark({ courseId: course._id, bookmarked: course.bookmark }) }} /> : <AiOutlineStar onClick={() => handleUpdateBookmark({ courseId: course._id, bookmarked: course.bookmark })} />}
+              </Card.Title>
+            </div>
             <Card.Text>Description : {course.description}</Card.Text>
             <Card.Text>Instructor: {course.user?.firstName}</Card.Text>
             <Card.Text>Category: {course.category}</Card.Text>
@@ -97,14 +103,6 @@ const Dashboard = (props) => {
         fluid
       >
         <Row>
-          <Col>
-            <div className='d-flex justify-content-around align-items-center align-content-center'>
-              <h4 className='mt-3'>Welcome {userInfo.firstName}</h4>
-              <Button variant='outline-danger' onClick={handleLogoutClick}>
-                Logout
-              </Button>
-            </div>
-          </Col>
           <div className='text-end'>
             {[Roles.admin, Roles.instructor].includes(userInfo.role) && (
               <Button
@@ -120,7 +118,7 @@ const Dashboard = (props) => {
         <Row>
           <Col>
             {!loading && (
-              <div className='d-flex flex-wrap'>
+              <div className='d-flex justify-content-center flex-wrap'>
                 {courses.map((course) => displayCourse(course))}
               </div>
             )}

@@ -12,7 +12,8 @@ const courseSchema = new Schema({
   duration: String,
   isEnrolled: Boolean,
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'student' },
-  file: String
+  file: String,
+  enrolledStudent: String
 }, {
   timestamps: true
 })

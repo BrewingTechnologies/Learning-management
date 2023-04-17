@@ -30,7 +30,7 @@ const courseDetails = async (req) => {
 
 const getAllCourses = async () => {
   try {
-    return await CoursesModel.find()
+    return await CoursesModel.find().populate('user')
   } catch (error) {
     console.log(error.message)
     return Boom.badRequest(error.message)
@@ -87,7 +87,7 @@ const courseWishList = async (req) => {
 
 const studentEnrolledCourses = async (req) => {
   try {
-    return await CoursesModel.find({ user: req.params.userId, isEnrolled: true })
+    return await CoursesModel.find({ enrolledStudent: req.params.userId, isEnrolled: true })
   } catch (error) {
     console.log(error.message)
     return Boom.badRequest(error.message)
@@ -114,18 +114,13 @@ const getCoursesOfInstructor = async (req) => {
 
 const updateCourseEnrollmentOfStundet = async (req) => {
   try {
-    const { isEnrolled } = req.query
-
-    const stundet = await CoursesModel.findOne({ user: req.params.userId })
+    const stundet = await CoursesModel.findOne({ _id: req.params.courseId })
 
     if (!stundet) {
       return Boom.notFound("Student with this id doesn't exists")
     }
 
-    if (isEnrolled) {
-      return await CoursesModel.updateOne({ user: req.params.userId }, { isEnrolled: true })
-    }
-    return await CoursesModel.updateOne({ user: req.params.userId }, { isEnrolled: false })
+    return await CoursesModel.updateOne({ _id: req.params.courseId }, { enrolledStudent: req.param.userId, isEnrolled: true })
   } catch (error) {
     console.log(error.message)
     return Boom.badRequest(error.message)
@@ -134,18 +129,18 @@ const updateCourseEnrollmentOfStundet = async (req) => {
 
 const courseBookmarks = async (req) => {
   try {
-    const { isfav } = req.query
+    const { isFav } = req.query
 
-    const stundet = await CoursesModel.findOne({ user: req.params.userId })
+    const stundet = await CoursesModel.findOne({ _id: req.params.courseId })
 
     if (!stundet) {
-      return Boom.notFound("Student with this id doesn't exists")
+      return Boom.notFound("Course with this id doesn't exists")
     }
 
-    if (isfav) {
-      return await CoursesModel.updateOne({ user: req.params.userId }, { bookmark: true })
+    if (isFav) {
+      return await CoursesModel.updateOne({ _id: req.params.courseId }, { enrolledStudent: req.params.userId, bookmark: true })
     }
-    return await CoursesModel.updateOne({ user: req.params.userId }, { bookmark: false })
+    return await CoursesModel.updateOne({ _id: req.params.courseId }, { enrolledStudent: req.params.userId, bookmark: false })
   } catch (error) {
     console.log(error.message)
     return Boom.badRequest(error.message)
