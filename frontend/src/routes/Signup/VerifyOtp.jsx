@@ -30,7 +30,7 @@ const VerifyOtp = (props) => {
 
   useEffect(() => {
     if (state?.user?.success && state?.isSuccess) {
-      history.push('/app/dashboard')
+      history.push('/app')
       toast.success(state?.user?.message);
     }
   }, [state?.user, state?.isSuccess, history]);

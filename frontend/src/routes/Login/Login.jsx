@@ -22,7 +22,7 @@ const Login = () => {
     e.preventDefault();
    const status = await loginUser(userInfo)
    if(status){
-    history.push('/app/dashboard')
+    history.push('/app')
    }
   }
 

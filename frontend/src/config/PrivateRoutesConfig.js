@@ -16,7 +16,7 @@ import Dashboard from "../routes/student/dashboard/Dashboard";
 const PrivateRoutesConfig = [
   {
     component: Dashboard,
-    path: "/dashboard",
+    path: "",
     title: "Dashboard",
     permission: [],
   },
