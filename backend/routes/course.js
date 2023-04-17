@@ -187,7 +187,7 @@ module.exports = [
   },
   {
     method: 'PUT',
-    path: '/courses/{courseId}/bookmark',
+    path: '/courses/{courseId}/bookmark/{userId}',
     handler: courseControllers.courseBookmarks,
     options: {
       description: 'Update Stundet Fav course',
