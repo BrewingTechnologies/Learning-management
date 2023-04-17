@@ -24,10 +24,14 @@ const Course = (props) => {
   }, []);
 
   const enrollHandler = async () => {
-    const status = await enrollCourse(courseId, true);
-    console.log(status);
+    const status = await enrollCourse(courseId, !courseInfo.isEnrolled);
     if (status) {
-      toast.success("Course enrolled successfully..!");
+      setCourseInfo({ ...courseInfo, isEnrolled: !courseInfo.isEnrolled });
+      toast.success(
+        `Course ${
+          courseInfo.isEnrolled ? "withdrawn" : "enrolled"
+        } successfully..!`
+      );
     } else {
       toast.error("Try Again");
     }
@@ -37,11 +41,11 @@ const Course = (props) => {
     <>
       <Header />
       <Container>
-        {Roles.student === userInfo.role && (
+        {Roles.student === userInfo.role && courseInfo?._id && (
           <Row>
             <Col className='d-flex justify-content-end mt-3'>
               <Button onClick={enrollHandler} variant='outline-success'>
-                Enroll
+                {courseInfo.isEnrolled ? "Withdraw" : "Enroll"}
               </Button>
             </Col>
           </Row>

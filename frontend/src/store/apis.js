@@ -100,8 +100,8 @@ export const updateUserBookmark = (data) => {
       .put(
         `${API_URL}/courses/${data.courseId}/bookmark/${userInfo._id}?isFav=${data.bookmark}`
       )
-      .then((res) => resolve(res.data))
-      .catch((err) => resolve(err));
+      .then((res) => resolve(true))
+      .catch((err) => resolve(false));
   });
 };
 

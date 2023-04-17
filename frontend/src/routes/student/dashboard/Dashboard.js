@@ -44,11 +44,18 @@ const Dashboard = (props) => {
       setCourses([...courses.filter((course) => course._id !== deleteCourse)]);
     }
     setDeleteCourse(courseId);
-    // await deleteCourse();
   };
 
   const handleUpdateBookmark = async ({ courseId, bookmarked }) => {
-    await updateUserBookmark({ courseId, bookmark: !bookmarked });
+    const status = await updateUserBookmark({
+      courseId,
+      bookmark: !bookmarked,
+    });
+    if (status) {
+      const index = courses.findIndex((course) => course._id === courseId);
+      courses[index].bookmark = !bookmarked;
+      setCourses([...courses]);
+    }
   };
 
   const displayCourse = (course) => {

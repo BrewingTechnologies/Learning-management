@@ -133,7 +133,7 @@ const updateCourseEnrollmentOfStundet = async (req) => {
 
     return await CoursesModel.updateOne(
       { _id: req.params.courseId },
-      { enrolledStudent: req.param.userId, isEnrolled: true }
+      { enrolledStudent: req.params.userId, isEnrolled: true }
     );
   } catch (error) {
     console.log(error.message);
