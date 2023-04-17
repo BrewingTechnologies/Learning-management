@@ -133,10 +133,22 @@ const updateCourseEnrollmentOfStundet = async (req) => {
 
     return await CoursesModel.updateOne(
       { _id: req.params.courseId },
-      { enrolledStudent: req.params.userId, isEnrolled: true }
+      { enrolledStudent: req.params.userId, isEnrolled: req.query.isEnrolled }
     );
   } catch (error) {
     console.log(error.message);
+    return Boom.badRequest(error.message);
+  }
+};
+
+const addFAQ = async (req) => {
+  console.log(req.payload, req.params);
+  try {
+    return await CoursesModel.updateOne(
+      { _id: req.params.courseId },
+      { $push: { faq: req.payload.data } }
+    );
+  } catch (error) {
     return Boom.badRequest(error.message);
   }
 };
@@ -224,4 +236,5 @@ module.exports = {
   updateCourseEnrollmentOfStundet,
   courseBookmarks,
   uploadThumbNail,
+  addFAQ,
 };

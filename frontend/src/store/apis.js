@@ -119,3 +119,18 @@ export const enrollCourse = (courseId, isEnroll) => {
       });
   });
 };
+
+export const sendMessage = (courseId, message) => {
+  return new Promise((resolve) => {
+    axios
+      .put(`${API_URL}/courses/${courseId}/faq`, {
+        data: { text: message, userId: userInfo._id },
+      })
+      .then((res) => {
+        resolve(true);
+      })
+      .catch((err) => {
+        resolve(false);
+      });
+  });
+};
