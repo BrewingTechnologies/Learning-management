@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { handleLogout, userInfo } from "../../utils/authentication";
-import { getCourseDetails } from "../../store/apis";
+import { ToastContainer, toast } from "react-toastify";
+import { enrollCourse, getCourseDetails } from "../../store/apis";
 
 import { Container, Row, Col, Button } from "react-bootstrap";
 import Header from "../Header/Header";
@@ -22,7 +23,15 @@ const Course = (props) => {
     fetchCourseDetails();
   }, []);
 
-  const enrollHandler = () => {};
+  const enrollHandler = async () => {
+    const status = await enrollCourse(courseId, true);
+    console.log(status);
+    if (status) {
+      toast.success("Course enrolled successfully..!");
+    } else {
+      toast.error("Try Again");
+    }
+  };
 
   return (
     <>
@@ -68,6 +77,7 @@ const Course = (props) => {
             )}
           </Col>
         </Row>
+        <ToastContainer />
       </Container>
     </>
   );

@@ -104,3 +104,18 @@ export const updateUserBookmark = (data) => {
       .catch((err) => resolve(err));
   });
 };
+
+export const enrollCourse = (courseId, isEnroll) => {
+  return new Promise((resolve) => {
+    axios
+      .put(
+        `${API_URL}/courses/${courseId}/enrollment/${userInfo._id}?isEnrolled=${isEnroll}`
+      )
+      .then((res) => {
+        resolve(true);
+      })
+      .catch((err) => {
+        resolve(false);
+      });
+  });
+};
