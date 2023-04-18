@@ -238,7 +238,8 @@ const addStudentByAdmin = async (req) => {
     const mailResponse = await sendOTP({ email, subject, text })
 
     if (mailResponse.accepted) {
-      return await StudentsModel.create({ ...req.payload, verified: true })
+      const encryptedPassword = await bcrypt.hash(req.payload.password, 10)
+      return await StudentsModel.create({ ...req.payload, password: encryptedPassword, verified: true })
     }
 
     return Boom.notAcceptable('Failed to create a stundet...Please try again.')
