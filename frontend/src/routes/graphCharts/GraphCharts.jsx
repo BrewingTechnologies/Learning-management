@@ -1,5 +1,4 @@
 import React from 'react'
-import ApexCharts from 'apexcharts'
 import BarChart from 'react-bar-chart';
 
 const GraphCharts = () => {
