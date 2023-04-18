@@ -224,7 +224,24 @@ const addStudentByAdmin = async (req) => {
     if (req.payload.role !== 'STUDENT') {
       return Boom.notAcceptable('You dont have access to create another user')
     }
-    return await createStudent({ payload: req.payload })
+    const { email } = req.payload
+
+    const subject = 'Your profile is created by ADMIN'
+
+    const text = `
+    Your credentials are 
+    Email : ${email},
+    Password : ${req.payload.password}
+
+    You can use this Credentials to login to Learning management.
+    `
+    const mailResponse = await sendOTP({ email, subject, text })
+
+    if (mailResponse.accepted) {
+      return await StudentsModel.create({ ...req.payload, verified: true })
+    }
+
+    return Boom.notAcceptable('Failed to create a stundet...Please try again.')
   } catch (error) {
     console.log(error.message)
     return Boom.badRequest(error.message)

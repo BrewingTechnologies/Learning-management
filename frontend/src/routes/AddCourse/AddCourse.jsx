@@ -18,10 +18,10 @@ const AddCourse = (props) => {
   })
 
   const submitHandler = async () => {
-    const {status,data} = await addCourse({ ...course, user: userInfo?._id });
+    const { status, data } = await addCourse({ ...course, user: userInfo?._id });
     if (status) {
       toast.success('Course added successfully..!')
-      handlerClose(false,data);
+      handlerClose(false, data);
     }
   }
 

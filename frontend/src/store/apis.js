@@ -134,3 +134,10 @@ export const sendMessage = (courseId, message) => {
       });
   });
 };
+
+
+export const addStudentByAdmin = (data) => {
+  return new Promise((resolve) => {
+    axios.post(`${API_URL}/users/student/admin`, data).then((res) => resolve(res.data)).catch((err) => resolve(err));
+  })
+}

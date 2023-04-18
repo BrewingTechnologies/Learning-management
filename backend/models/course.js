@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
 
-const { Schema } = mongoose;
+const { Schema } = mongoose
 
 const courseSchema = new Schema(
   {
@@ -12,19 +12,19 @@ const courseSchema = new Schema(
     bookmark: Boolean,
     duration: String,
     isEnrolled: Boolean,
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "student" },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'student' },
     file: String,
     enrolledStudent: String,
     faq: [
       {
         text: String,
-        userId: { type: mongoose.Schema.Types.ObjectId, ref: "student" },
-      },
-    ],
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: 'student' }
+      }
+    ]
   },
   {
-    timestamps: true,
+    timestamps: true
   }
-);
+)
 
-module.exports = mongoose.model("course", courseSchema);
+module.exports = mongoose.model('course', courseSchema)

@@ -13,6 +13,9 @@ import Header from "../../Header/Header";
 import { Container, Row, Col, Button, Card } from "react-bootstrap";
 import DeleteCourse from "../../DeleteCourse/DeleteCourse";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
+import { toast, ToastContainer } from "react-toastify";
+import AddStudent from "../../addStudent/AddStudent";
+
 
 const Dashboard = (props) => {
   const [courses, setCourses] = useState([]);
@@ -21,6 +24,8 @@ const Dashboard = (props) => {
 
   const [addCourse, setAddCourse] = useState(false);
   const [deleteCourse, setDeleteCourse] = useState(false);
+
+  const [student, setStudent] = useState(false);
 
   const fetchCourses = async () => {
     const role = getRole();
@@ -60,20 +65,20 @@ const Dashboard = (props) => {
 
   const displayCourse = (course) => {
     return (
-      <div key={`${course._id}`}>
+      <div key={`${course?._id}`}>
         <Card style={{ width: "25rem", margin: "16px" }}>
           <Card.Body>
             <div className='d-flex justify-content-evenly align-items-center'>
               <Card.Title className='text-primary text-center p-2'>
-                {course.name}
+                {course?.name}
               </Card.Title>
               <Card.Title>
-                {course.bookmark ? (
+                {course?.bookmark ? (
                   <AiFillStar
                     onClick={() => {
                       handleUpdateBookmark({
-                        courseId: course._id,
-                        bookmarked: course.bookmark,
+                        courseId: course?._id,
+                        bookmarked: course?.bookmark,
                       });
                     }}
                   />
@@ -81,29 +86,29 @@ const Dashboard = (props) => {
                   <AiOutlineStar
                     onClick={() =>
                       handleUpdateBookmark({
-                        courseId: course._id,
-                        bookmarked: course.bookmark,
+                        courseId: course?._id,
+                        bookmarked: course?.bookmark,
                       })
                     }
                   />
                 )}
               </Card.Title>
             </div>
-            <Card.Text>Description : {course.description}</Card.Text>
-            <Card.Text>Instructor: {course.user?.firstName}</Card.Text>
-            <Card.Text>Category: {course.category}</Card.Text>
+            <Card.Text>Description : {course?.description}</Card.Text>
+            <Card.Text>Instructor: {course?.user?.firstName}</Card.Text>
+            <Card.Text>Category: {course?.category}</Card.Text>
             <div className='text-center d-flex justify-content-around'>
               <Button
                 variant='success'
                 onClick={() => {
-                  history.push(`/app/${course._id}`);
+                  history.push(`/app/${course?._id}`);
                 }}
               >
                 View Course
               </Button>
               {[Roles.admin, Roles.instructor].includes(userInfo.role) && (
                 <Button
-                  onClick={() => deletePopUp(course._id)}
+                  onClick={() => deletePopUp(course?._id)}
                   variant='danger'
                 >
                   Delete Course
@@ -118,12 +123,16 @@ const Dashboard = (props) => {
 
   const handlerClose = (isAdd, courseData) => {
     setAddCourse(isAdd);
-    setCourses([...courses, courseData]);
+    setCourses([...courses]);
   };
 
   const courseDelete = (data) => {
     setDeleteCourse(data);
   };
+
+  const handlerCloseAddStudent = (data) => {
+    setStudent(data);
+  }
 
   return (
     <>
@@ -135,22 +144,22 @@ const Dashboard = (props) => {
         fluid
       >
         <Row>
-          <div className='text-end'>
+          <div className="d-flex  justify-content-around align-items-center mt-2" >
             {[Roles.admin, Roles.instructor].includes(userInfo.role) && (
               <Button
-                className='m-5'
                 onClick={() => setAddCourse(true)}
                 variant='outline-primary'
               >
                 Add Course
               </Button>
             )}
+            {Roles.admin === userInfo.role && <Button onClick={() => setStudent(true)} variant="outline-success"> Add Student</Button>}
           </div>
         </Row>
         <Row>
           <Col>
             {!loading && (
-              <div className='d-flex flex-wrap ml-1 mr-1'>
+              <div className='d-flex justify-content-center flex-wrap ml-1 mr-1'>
                 {courses.map((course) => displayCourse(course))}
               </div>
             )}
@@ -161,6 +170,8 @@ const Dashboard = (props) => {
       {deleteCourse && (
         <DeleteCourse deleteCourse={deleteCourse} courseDelete={deletePopUp} />
       )}
+      {student && <AddStudent handlerCloseAddStudent={handlerCloseAddStudent} />}
+      <ToastContainer />
     </>
   );
 };

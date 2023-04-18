@@ -170,7 +170,7 @@ module.exports = [
   },
   {
     method: 'POST',
-    path: '/users/add-student/admin',
+    path: '/users/student/admin',
     handler: studentController.addStudentByAdmin,
     options: {
       description: 'Create a student by admin',

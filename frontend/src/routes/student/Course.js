@@ -99,9 +99,9 @@ const Course = (props) => {
                 {courseInfo.faq.map((que) => (
                   <div className='p-3 rounded-2 shadow-lg m-3'>{que.text}</div>
                 ))}
-                <div class='form-group d-flex align-items-end justify-content-between m-3'>
+                <div className='form-group d-flex align-items-end justify-content-between m-3'>
                   <textarea
-                    class='form-control rounded-1 m3'
+                    className='form-control rounded-1 m3'
                     id='exampleFormControlTextarea2'
                     rows='3'
                     cols='10'
