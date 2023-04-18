@@ -10,9 +10,11 @@ const DeleteCourse = (props) => {
   const { deleteCourse, courseDelete } = props;
 
   const handleDelete=async()=>{
-    const status = await deleteUserCourse(deleteCourse);
+    const {status,data} = await deleteUserCourse(deleteCourse);
     if(status){
       toast.success('Course deleted successfully..!')
+    }else{
+      toast.error(data);
     }
     courseDelete(false,status)
   }

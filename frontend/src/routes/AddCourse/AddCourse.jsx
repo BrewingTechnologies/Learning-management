@@ -22,6 +22,8 @@ const AddCourse = (props) => {
     if (status) {
       toast.success('Course added successfully..!')
       handlerClose(false, data);
+    }else{
+      toast.error(data);
     }
   }
 

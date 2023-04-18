@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
-import { handleLogout, userInfo } from "../../utils/authentication";
+import { userInfo } from "../../utils/authentication";
 import { ToastContainer, toast } from "react-toastify";
 import {
   enrollCourse,
@@ -21,7 +21,7 @@ const Course = (props) => {
   const [message, setMessage] = useState("");
 
   const fetchCourseDetails = async () => {
-    const data = await getCourseDetails(courseId);
+    const { status, data } = await getCourseDetails(courseId);
     setCourseInfo(data);
   };
 
@@ -30,7 +30,10 @@ const Course = (props) => {
   }, []);
 
   const enrollHandler = async () => {
-    const status = await enrollCourse(courseId, !courseInfo.isEnrolled);
+    const { status, data } = await enrollCourse(
+      courseId,
+      !courseInfo.isEnrolled
+    );
     if (status) {
       setCourseInfo({ ...courseInfo, isEnrolled: !courseInfo.isEnrolled });
       toast.success(
@@ -39,33 +42,34 @@ const Course = (props) => {
         } successfully..!`
       );
     } else {
-      toast.error("Try Again");
+      toast.error(data);
     }
   };
 
   const handleSendMessage = async () => {
-    const status = await sendMessage(courseId, message);
+    const { status, data } = await sendMessage(courseId, message);
     if (status) {
       courseInfo.faq.push({ text: message, userId: userInfo._id });
       setCourseInfo({ ...courseInfo });
       setMessage("");
     } else {
-      toast.error("Try Again");
+      toast.error(data);
     }
   };
 
   const handleFileUpload = async (e, isFile) => {
     const file = e.target.files[0];
-    const data = new FormData();
-    data.append("file", file);
-    console.log("handleFileUpload");
-    const status = await uploadFile({
+    const fileInfo = new FormData();
+    fileInfo.append("file", file);
+    const { status, data } = await uploadFile({
       courseId: courseInfo._id,
       isFile,
-      file: data,
+      file: fileInfo,
     });
     if (status) {
       toast.success("File uploaded successfully..!");
+    } else {
+      toast.error(data);
     }
   };
 

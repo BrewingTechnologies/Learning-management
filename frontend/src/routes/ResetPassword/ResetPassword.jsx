@@ -21,20 +21,24 @@ const ResetPassword = () => {
 
   const verifyHandler = async () => {
     setLoading(true)
-    const status = await resetForgotPassword(userData.email);
+    const {status,data} = await resetForgotPassword(userData.email);
     if (status) {
       toast.success('Password reset OTP sent to your email please check your email...')
       setSubmit(true);
       setLoading(false);
+    }else{
+      toast.error(data);
     }
   }
 
   const handleSubmit = async () => {
 
-    const status = await updatePassword(userData);
+    const {status,data} = await updatePassword(userData);
     if (status) {
       toast.success('Your password updated successfully')
       history.push('/')
+    }else{
+      toast.error(data);
     }
   }
 

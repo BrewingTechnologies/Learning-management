@@ -17,8 +17,6 @@ import { toast, ToastContainer } from "react-toastify";
 import AddStudent from "../../addStudent/AddStudent";
 import GraphCharts from "../../graphCharts/GraphCharts";
 
-
-
 const Dashboard = (props) => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -31,18 +29,20 @@ const Dashboard = (props) => {
 
   const [revenue, setRevenue] = useState(false);
 
-
-
   const fetchCourses = async () => {
     const role = getRole();
     setLoading(true);
-    let data = [];
+    let dataa = [];
     if (role === Roles.instructor) {
-      data = await fetchInstructorCourses(userInfo._id);
+      const { status, data } = await fetchInstructorCourses(userInfo._id);
+      if (status) dataa = data;
     } else {
-      data = await fetchAllCourses();
+      const { status, data } = await fetchAllCourses();
+      if (status) {
+        dataa = data;
+      }
     }
-    setCourses([...data]);
+    setCourses([...dataa]);
     setLoading(false);
   };
 
@@ -58,7 +58,7 @@ const Dashboard = (props) => {
   };
 
   const handleUpdateBookmark = async ({ courseId, bookmarked }) => {
-    const status = await updateUserBookmark({
+    const { status } = await updateUserBookmark({
       courseId,
       bookmark: !bookmarked,
     });
@@ -136,25 +136,34 @@ const Dashboard = (props) => {
 
   const handlerCloseAddStudent = (data) => {
     setStudent(data);
-  }
+  };
 
   const closeGraphBar = (data) => {
     setRevenue(false);
-  }
+  };
 
   return (
     <>
       <Header />
       <Container
         style={
-          addCourse ? { filter: "blur(5px)", backgroundColor: "gray" } : student ? { filter: "blur(5px)", backgroundColor: "gray" } : revenue ? { filter: "blur(5px)", backgroundColor: "white" } : {}
+          addCourse
+            ? { filter: "blur(5px)", backgroundColor: "gray" }
+            : student
+            ? { filter: "blur(5px)", backgroundColor: "gray" }
+            : revenue
+            ? { filter: "blur(5px)", backgroundColor: "white" }
+            : {}
         }
         fluid
       >
         <Row>
           <Col>
-            <div className="d-flex  justify-content-end align-items-center mt-3" style={{ paddingRight: '10%' }}  >
-              <div className="m-2" >
+            <div
+              className='d-flex  justify-content-end align-items-center mt-3'
+              style={{ paddingRight: "10%" }}
+            >
+              <div className='m-2'>
                 {[Roles.admin, Roles.instructor].includes(userInfo.role) && (
                   <Button
                     onClick={() => setAddCourse(true)}
@@ -164,8 +173,25 @@ const Dashboard = (props) => {
                   </Button>
                 )}
               </div>
-              {Roles.admin === userInfo.role && <Button onClick={() => setStudent(true)} variant="outline-success"> Add Student</Button>}
-              {[Roles.admin, Roles.instructor].includes(userInfo.role) &&  <Button className="m-2" variant="outline-info" onClick={() => setRevenue(!revenue)} > View Revenue </Button>}
+              {Roles.admin === userInfo.role && (
+                <Button
+                  onClick={() => setStudent(true)}
+                  variant='outline-success'
+                >
+                  {" "}
+                  Add Student
+                </Button>
+              )}
+              {[Roles.admin, Roles.instructor].includes(userInfo.role) && (
+                <Button
+                  className='m-2'
+                  variant='outline-info'
+                  onClick={() => setRevenue(!revenue)}
+                >
+                  {" "}
+                  View Revenue{" "}
+                </Button>
+              )}
             </div>
           </Col>
         </Row>
@@ -183,11 +209,11 @@ const Dashboard = (props) => {
       {deleteCourse && (
         <DeleteCourse deleteCourse={deleteCourse} courseDelete={deletePopUp} />
       )}
-      {student && <AddStudent handlerCloseAddStudent={handlerCloseAddStudent} />}
+      {student && (
+        <AddStudent handlerCloseAddStudent={handlerCloseAddStudent} />
+      )}
       <ToastContainer />
-      <div>
-        {revenue && <GraphCharts closeGraphBar={closeGraphBar} />}
-      </div>
+      <div>{revenue && <GraphCharts closeGraphBar={closeGraphBar} />}</div>
     </>
   );
 };

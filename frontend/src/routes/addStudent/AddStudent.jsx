@@ -17,11 +17,13 @@ const AddStudent = (props) => {
   })
 
   const submitHandler = async () => {
-    const status = await addStudentByAdmin(student);
+    const {status,data} = await addStudentByAdmin(student);
 
     if (status) {
       toast.success('student added successfully..!!')
       handlerCloseAddStudent(false)
+    }else{
+      toast.error(data);
     }
   }
 
@@ -38,7 +40,7 @@ const AddStudent = (props) => {
 
 
   return (
-    <Form style={styles} className='d-flex flex-column justify-content-center align-items-center' >
+    <Form style={styles} className='d-flex flex-column justify-content-center align-items-center' onSubmit={submitHandler}>
       <h4 className='text-center text-primary'>Add Student</h4>
       <Form.Group className="mb-3" controlId="firstName">
         <Form.Label>First name</Form.Label>
@@ -67,7 +69,6 @@ const AddStudent = (props) => {
           Close
         </Button>
       </div>
-      <ToastContainer />
     </Form>
   )
 }

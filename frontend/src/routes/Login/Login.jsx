@@ -6,6 +6,7 @@ import { loginUser } from '../../store/apis';
 import ResetPassword from '../ResetPassword/ResetPassword';
 import { Col, Container, Row } from 'react-bootstrap';
 import Logo from '../../logo.png'
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const Login = () => {
@@ -20,9 +21,11 @@ const Login = () => {
 
   const loginHandler = async (e) => {
     e.preventDefault();
-   const status = await loginUser(userInfo)
+   const {status,data} = await loginUser(userInfo)
    if(status){
     history.push('/app')
+   }else{
+    toast.error(data)
    }
   }
 
@@ -66,6 +69,7 @@ const Login = () => {
           {/* <p className='mt-3 text-center'>New member..? please  here</p> */}
         </div>
       </Form>
+      <ToastContainer/>
     </>
   )
 }
