@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
 import { addCourse } from '../../store/apis'
-import { ToastContainer, toast } from 'react-toastify'
+import {  toast } from 'react-toastify'
 import { userInfo } from '../../utils/authentication'
 
 const AddCourse = (props) => {
@@ -76,7 +76,6 @@ const AddCourse = (props) => {
           Close
         </Button>
       </div>
-      <ToastContainer />
     </Form>
   )
 }

@@ -31,11 +31,11 @@ const GraphCharts = (props) => {
   }
 
   return (
-    <div style={styles}>
+    <div style={styles} >
       <h4>Graphs</h4>
       <div style={{ textAlign: 'center', width: '100%' }}>
         <BarChart ylabel='Revenue'
-          width={500}
+          width={700}
           height={500}
           margin={margin}
           data={data}
@@ -50,10 +50,12 @@ const GraphCharts = (props) => {
 const styles = {
   borderRadius: '20px',
   position: 'absolute',
-  top: '30%',
+  top: '10%',
   left: '50%',
   transform: 'translate(-50%, 0)',
-  textAlign: 'center'
+  textAlign: 'center',
+  backgroundColor:'#f0f0f0',
+  padding: '6rem',
 }
 
 export default GraphCharts;
