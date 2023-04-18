@@ -1,9 +1,8 @@
 import React from 'react'
-import { Container, Row, Col, Button } from 'react-bootstrap'
+import { Container, Row, Col, Button, Card } from 'react-bootstrap'
 import Logo from '../../logo.png'
 import { userInfo, handleLogout } from '../../utils/authentication'
 import { useHistory } from 'react-router-dom'
-
 
 const Header = () => {
 

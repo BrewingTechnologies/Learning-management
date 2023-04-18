@@ -15,6 +15,8 @@ import DeleteCourse from "../../DeleteCourse/DeleteCourse";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { toast, ToastContainer } from "react-toastify";
 import AddStudent from "../../addStudent/AddStudent";
+import GraphCharts from "../../graphCharts/GraphCharts";
+
 
 
 const Dashboard = (props) => {
@@ -139,22 +141,30 @@ const Dashboard = (props) => {
       <Header />
       <Container
         style={
-          addCourse ? { filter: "blur(5px)", backgroundColor: "gray" } : {}
+          addCourse ? { filter: "blur(5px)", backgroundColor: "gray" } : student ? { filter: "blur(5px)", backgroundColor: "gray" } : {}
         }
         fluid
       >
         <Row>
-          <div className="d-flex  justify-content-around align-items-center mt-2" >
-            {[Roles.admin, Roles.instructor].includes(userInfo.role) && (
-              <Button
-                onClick={() => setAddCourse(true)}
-                variant='outline-primary'
-              >
-                Add Course
-              </Button>
-            )}
-            {Roles.admin === userInfo.role && <Button onClick={() => setStudent(true)} variant="outline-success"> Add Student</Button>}
-          </div>
+          <Col>
+            <div className="d-flex  justify-content-around align-items-center mt-2" >
+              <div>
+
+                {[Roles.admin, Roles.instructor].includes(userInfo.role) && (
+                  <Button
+                    onClick={() => setAddCourse(true)}
+                    variant='outline-primary'
+                  >
+                    Add Course
+                  </Button>
+                )}
+              </div>
+              {Roles.admin === userInfo.role && <Button onClick={() => setStudent(true)} variant="outline-success"> Add Student</Button>}
+            </div>
+            <div className="text-center m-auto" >
+              <GraphCharts />
+            </div>
+          </Col>
         </Row>
         <Row>
           <Col>
