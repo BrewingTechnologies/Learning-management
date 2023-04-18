@@ -13,8 +13,14 @@ export const loginUser = (userData) => {
         handleLogin(res.data);
         resolve(true);
       })
-      .catch((err) => {
-        resolve(false);
+      .catch((error) => {
+        const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString()
+        resolve(message);
       });
   });
 };
@@ -26,8 +32,14 @@ export const fetchAllCourses = () => {
       .then((res) => {
         resolve(res.data);
       })
-      .catch((err) => {
-        resolve([]);
+      .catch((error) => {
+        const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString()
+        resolve(message);
       });
   });
 };
@@ -37,7 +49,15 @@ export const resetForgotPassword = (email) => {
     axios
       .put(`${API_URL}/users/forgot-password-otp`, { email })
       .then((res) => resolve(res.data))
-      .catch((err) => reject(err));
+      .catch((error) => {
+        const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString()
+        resolve(message);
+      });
   });
 };
 
@@ -46,7 +66,15 @@ export const updatePassword = (data) => {
     axios
       .put(`${API_URL}/users/update-password`, { ...data })
       .then((res) => resolve(res.data))
-      .catch((err) => resolve(err));
+      .catch((error) => {
+        const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString()
+        resolve(message);
+      });
   });
 };
 
@@ -57,8 +85,14 @@ export const fetchInstructorCourses = (id) => {
       .then((res) => {
         resolve(res.data);
       })
-      .catch((err) => {
-        resolve([]);
+      .catch((error) => {
+        const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString()
+        resolve(message);
       });
   });
 };
@@ -70,8 +104,14 @@ export const getCourseDetails = (courseId) => {
       .then((res) => {
         resolve(res.data);
       })
-      .catch((err) => {
-        resolve();
+      .catch((error) => {
+        const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString()
+        resolve(message);
       });
   });
 };
@@ -81,7 +121,15 @@ export const addCourse = (data) => {
     axios
       .post(`${API_URL}/courses`, data)
       .then((res) => resolve({ status: true, data: res.data }))
-      .catch((err) => resolve({ status: false }));
+      .catch((error) => {
+        const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString()
+        resolve(message);
+      });
   });
 };
 
@@ -90,7 +138,15 @@ export const deleteUserCourse = (data) => {
     axios
       .delete(`${API_URL}/courses/${data}`)
       .then((res) => resolve(true))
-      .catch((err) => resolve(false));
+      .catch((error) => {
+        const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString()
+        resolve(message);
+      });
   });
 };
 
@@ -101,7 +157,15 @@ export const updateUserBookmark = (data) => {
         `${API_URL}/courses/${data.courseId}/bookmark/${userInfo._id}?isFav=${data.bookmark}`
       )
       .then((res) => resolve(true))
-      .catch((err) => resolve(false));
+      .catch((error) => {
+        const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString()
+        resolve(message);
+      });
   });
 };
 
@@ -114,8 +178,14 @@ export const enrollCourse = (courseId, isEnroll) => {
       .then((res) => {
         resolve(true);
       })
-      .catch((err) => {
-        resolve(false);
+      .catch((error) => {
+        const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString()
+        resolve(message);
       });
   });
 };
@@ -129,8 +199,14 @@ export const sendMessage = (courseId, message) => {
       .then((res) => {
         resolve(true);
       })
-      .catch((err) => {
-        resolve(false);
+      .catch((error) => {
+        const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString()
+        resolve(message);
       });
   });
 };
@@ -138,6 +214,14 @@ export const sendMessage = (courseId, message) => {
 
 export const addStudentByAdmin = (data) => {
   return new Promise((resolve) => {
-    axios.post(`${API_URL}/users/student/admin`, data).then((res) => resolve(res.data)).catch((err) => resolve(err));
+    axios.post(`${API_URL}/users/student/admin`, data).then((res) => resolve(res.data)).catch((error) => {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+      resolve(message);
+    });
   })
 }

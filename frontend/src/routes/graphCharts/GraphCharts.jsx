@@ -1,7 +1,11 @@
 import React from 'react'
 import BarChart from 'react-bar-chart';
+import { Button } from 'react-bootstrap';
 
-const GraphCharts = () => {
+
+const GraphCharts = (props) => {
+
+  const { closeGraphBar } = props;
 
   const data = [
     { text: 'Jan', value: 100 },
@@ -22,8 +26,12 @@ const GraphCharts = () => {
   const margin = { top: 20, right: 20, bottom: 30, left: 40 };
 
 
+  const closeHandler = () => {
+    closeGraphBar();
+  }
+
   return (
-    <div  >
+    <div style={styles}>
       <h4>Graphs</h4>
       <div style={{ textAlign: 'center', width: '100%' }}>
         <BarChart ylabel='Revenue'
@@ -33,8 +41,19 @@ const GraphCharts = () => {
           data={data}
         />
       </div>
+      <Button variant='outline-danger' onClick={closeHandler} >Close</Button>
     </div>
   )
+}
+
+
+const styles = {
+  borderRadius: '20px',
+  position: 'absolute',
+  top: '30%',
+  left: '50%',
+  transform: 'translate(-50%, 0)',
+  textAlign: 'center'
 }
 
 export default GraphCharts;

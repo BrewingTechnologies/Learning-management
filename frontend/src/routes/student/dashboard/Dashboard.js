@@ -134,12 +134,12 @@ const Dashboard = (props) => {
     }
   };
 
-  const courseDelete = (data) => {
-    setDeleteCourse(data);
-  };
-
   const handlerCloseAddStudent = (data) => {
     setStudent(data);
+  }
+
+  const closeGraphBar = (data) => {
+    setRevenue(false);
   }
 
   return (
@@ -147,7 +147,7 @@ const Dashboard = (props) => {
       <Header />
       <Container
         style={
-          addCourse ? { filter: "blur(5px)", backgroundColor: "gray" } : student ? { filter: "blur(5px)", backgroundColor: "gray" } : {}
+          addCourse ? { filter: "blur(5px)", backgroundColor: "gray" } : student ? { filter: "blur(5px)", backgroundColor: "gray" } : revenue ? { filter: "blur(5px)", backgroundColor: "white" } : {}
         }
         fluid
       >
@@ -165,10 +165,7 @@ const Dashboard = (props) => {
                 )}
               </div>
               {Roles.admin === userInfo.role && <Button onClick={() => setStudent(true)} variant="outline-success"> Add Student</Button>}
-              <Button className="m-2" variant="outline-info" onClick={() => setRevenue(true)} > View Revenue </Button>
-              <div>
-                {revenue && <GraphCharts />}
-              </div>
+              {[Roles.admin, Roles.instructor].includes(userInfo.role) &&  <Button className="m-2" variant="outline-info" onClick={() => setRevenue(!revenue)} > View Revenue </Button>}
             </div>
           </Col>
         </Row>
@@ -188,6 +185,9 @@ const Dashboard = (props) => {
       )}
       {student && <AddStudent handlerCloseAddStudent={handlerCloseAddStudent} />}
       <ToastContainer />
+      <div>
+        {revenue && <GraphCharts closeGraphBar={closeGraphBar} />}
+      </div>
     </>
   );
 };
