@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { handleLogout, userInfo } from "../../utils/authentication";
 import { ToastContainer, toast } from "react-toastify";
-import { enrollCourse, getCourseDetails, sendMessage } from "../../store/apis";
+import {
+  enrollCourse,
+  getCourseDetails,
+  sendMessage,
+  uploadFile,
+} from "../../store/apis";
 
 import { Container, Row, Col, Button } from "react-bootstrap";
 import Header from "../Header/Header";
@@ -29,7 +34,8 @@ const Course = (props) => {
     if (status) {
       setCourseInfo({ ...courseInfo, isEnrolled: !courseInfo.isEnrolled });
       toast.success(
-        `Course ${courseInfo.isEnrolled ? "withdrawn" : "enrolled"
+        `Course ${
+          courseInfo.isEnrolled ? "withdrawn" : "enrolled"
         } successfully..!`
       );
     } else {
@@ -48,16 +54,60 @@ const Course = (props) => {
     }
   };
 
+  const handleFileUpload = async (e, isFile) => {
+    const file = e.target.files[0];
+    const data = new FormData();
+    data.append("file", file);
+    console.log("handleFileUpload");
+    const status = await uploadFile({
+      courseId: courseInfo._id,
+      isFile,
+      file: data,
+    });
+    if (status) {
+      toast.success("File uploaded successfully..!");
+    }
+  };
+
   return (
     <>
       <Header />
       <Container>
-        {Roles.student === userInfo.role && courseInfo?._id && (
+        {courseInfo?._id && (
           <Row>
             <Col className='d-flex justify-content-end mt-3'>
-              <Button onClick={enrollHandler} variant='outline-success'>
-                {courseInfo.isEnrolled ? "Withdraw" : "Enroll"}
-              </Button>
+              {Roles.student === userInfo.role ? (
+                <Button onClick={enrollHandler} variant='outline-success'>
+                  {courseInfo.isEnrolled ? "Withdraw" : "Enroll"}
+                </Button>
+              ) : (
+                <>
+                  <label htmlFor='uploadFiles'>
+                    <input
+                      style={{ display: "none" }}
+                      type='file'
+                      accept={".pdf"}
+                      id='uploadFiles'
+                      onChange={(e) => handleFileUpload(e, true)}
+                    />
+                    <Button style={{ "pointer-events": "none" }}>
+                      Upload Files
+                    </Button>
+                  </label>
+                  <label htmlFor='thumbnail'>
+                    <input
+                      style={{ display: "none" }}
+                      type='file'
+                      accept='image/png, image/gif, image/jpeg'
+                      id='thumbnail'
+                      onChange={(e) => handleFileUpload(e, false)}
+                    />
+                    <Button style={{ "pointer-events": "none" }}>
+                      Upload Thumbnail
+                    </Button>
+                  </label>
+                </>
+              )}
             </Col>
           </Row>
         )}
@@ -98,7 +148,7 @@ const Course = (props) => {
                 {courseInfo.faq.map((que) => (
                   <div className='p-3 rounded-2 shadow-lg m-3'>
                     <p>{que.text}</p>
-                    <p style={{ color: 'gray' }} > {que.userId?.firstName} </p>
+                    <p style={{ color: "gray" }}> {que.userId?.firstName} </p>
                   </div>
                 ))}
                 <div className='form-group d-flex align-items-end justify-content-between m-3'>

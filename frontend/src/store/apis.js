@@ -19,7 +19,7 @@ export const loginUser = (userData) => {
             error.response.data &&
             error.response.data.message) ||
           error.message ||
-          error.toString()
+          error.toString();
         resolve(message);
       });
   });
@@ -38,7 +38,7 @@ export const fetchAllCourses = () => {
             error.response.data &&
             error.response.data.message) ||
           error.message ||
-          error.toString()
+          error.toString();
         resolve(message);
       });
   });
@@ -55,7 +55,7 @@ export const resetForgotPassword = (email) => {
             error.response.data &&
             error.response.data.message) ||
           error.message ||
-          error.toString()
+          error.toString();
         resolve(message);
       });
   });
@@ -72,7 +72,7 @@ export const updatePassword = (data) => {
             error.response.data &&
             error.response.data.message) ||
           error.message ||
-          error.toString()
+          error.toString();
         resolve(message);
       });
   });
@@ -91,7 +91,7 @@ export const fetchInstructorCourses = (id) => {
             error.response.data &&
             error.response.data.message) ||
           error.message ||
-          error.toString()
+          error.toString();
         resolve(message);
       });
   });
@@ -110,7 +110,7 @@ export const getCourseDetails = (courseId) => {
             error.response.data &&
             error.response.data.message) ||
           error.message ||
-          error.toString()
+          error.toString();
         resolve(message);
       });
   });
@@ -127,7 +127,7 @@ export const addCourse = (data) => {
             error.response.data &&
             error.response.data.message) ||
           error.message ||
-          error.toString()
+          error.toString();
         resolve(message);
       });
   });
@@ -144,7 +144,7 @@ export const deleteUserCourse = (data) => {
             error.response.data &&
             error.response.data.message) ||
           error.message ||
-          error.toString()
+          error.toString();
         resolve(message);
       });
   });
@@ -163,7 +163,7 @@ export const updateUserBookmark = (data) => {
             error.response.data &&
             error.response.data.message) ||
           error.message ||
-          error.toString()
+          error.toString();
         resolve(message);
       });
   });
@@ -184,7 +184,7 @@ export const enrollCourse = (courseId, isEnroll) => {
             error.response.data &&
             error.response.data.message) ||
           error.message ||
-          error.toString()
+          error.toString();
         resolve(message);
       });
   });
@@ -205,23 +205,42 @@ export const sendMessage = (courseId, message) => {
             error.response.data &&
             error.response.data.message) ||
           error.message ||
-          error.toString()
+          error.toString();
         resolve(message);
       });
   });
 };
 
-
 export const addStudentByAdmin = (data) => {
   return new Promise((resolve) => {
-    axios.post(`${API_URL}/users/student/admin`, data).then((res) => resolve(res.data)).catch((error) => {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString()
-      resolve(message);
-    });
-  })
-}
+    axios
+      .post(`${API_URL}/users/student/admin`, data)
+      .then((res) => resolve(res.data))
+      .catch((error) => {
+        const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        resolve(message);
+      });
+  });
+};
+
+export const uploadFile = ({ courseId, isFile, file }) => {
+  console.log("uploadfile");
+  return new Promise((resolve) => {
+    axios
+      .put(
+        `${API_URL}/courses/${courseId}/thumbnailOrFile?file=${isFile}`,
+        file
+      )
+      .then((res) => {
+        resolve(true);
+      })
+      .catch((err) => {
+        resolve(false);
+      });
+  });
+};
