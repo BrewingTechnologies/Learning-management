@@ -29,8 +29,7 @@ const Course = (props) => {
     if (status) {
       setCourseInfo({ ...courseInfo, isEnrolled: !courseInfo.isEnrolled });
       toast.success(
-        `Course ${
-          courseInfo.isEnrolled ? "withdrawn" : "enrolled"
+        `Course ${courseInfo.isEnrolled ? "withdrawn" : "enrolled"
         } successfully..!`
       );
     } else {
@@ -97,7 +96,10 @@ const Course = (props) => {
               <Col className='shadow-lg m-3 p-3'>
                 <h3>FAQ</h3>
                 {courseInfo.faq.map((que) => (
-                  <div className='p-3 rounded-2 shadow-lg m-3'>{que.text}</div>
+                  <div className='p-3 rounded-2 shadow-lg m-3'>
+                    <p>{que.text}</p>
+                    <p style={{ color: 'gray' }} > {que.userId?.firstName} </p>
+                  </div>
                 ))}
                 <div className='form-group d-flex align-items-end justify-content-between m-3'>
                   <textarea

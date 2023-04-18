@@ -14,11 +14,12 @@ const courseSchema = new Schema(
     isEnrolled: Boolean,
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'student' },
     file: String,
-    enrolledStudent: String,
+    enrolledStudent: [{ type: mongoose.Schema.Types.ObjectId, ref: 'student' }],
     faq: [
       {
         text: String,
-        userId: { type: mongoose.Schema.Types.ObjectId, ref: 'student' }
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: 'student' },
+        _id: false
       }
     ]
   },

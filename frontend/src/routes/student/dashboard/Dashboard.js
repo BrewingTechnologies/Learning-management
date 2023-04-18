@@ -29,6 +29,10 @@ const Dashboard = (props) => {
 
   const [student, setStudent] = useState(false);
 
+  const [revenue, setRevenue] = useState(false);
+
+
+
   const fetchCourses = async () => {
     const role = getRole();
     setLoading(true);
@@ -125,7 +129,9 @@ const Dashboard = (props) => {
 
   const handlerClose = (isAdd, courseData) => {
     setAddCourse(isAdd);
-    setCourses([...courses]);
+    if (courseData) {
+      setCourses([...courses, courseData]);
+    }
   };
 
   const courseDelete = (data) => {
@@ -147,9 +153,8 @@ const Dashboard = (props) => {
       >
         <Row>
           <Col>
-            <div className="d-flex  justify-content-around align-items-center mt-2" >
-              <div>
-
+            <div className="d-flex  justify-content-end align-items-center mt-3" style={{ paddingRight: '10%' }}  >
+              <div className="m-2" >
                 {[Roles.admin, Roles.instructor].includes(userInfo.role) && (
                   <Button
                     onClick={() => setAddCourse(true)}
@@ -160,16 +165,17 @@ const Dashboard = (props) => {
                 )}
               </div>
               {Roles.admin === userInfo.role && <Button onClick={() => setStudent(true)} variant="outline-success"> Add Student</Button>}
-            </div>
-            <div className="text-center m-auto" >
-              <GraphCharts />
+              <Button className="m-2" variant="outline-info" onClick={() => setRevenue(true)} > View Revenue </Button>
+              <div>
+                {revenue && <GraphCharts />}
+              </div>
             </div>
           </Col>
         </Row>
         <Row>
           <Col>
             {!loading && (
-              <div className='d-flex justify-content-center flex-wrap ml-1 mr-1'>
+              <div className='d-flex  flex-wrap m-5'>
                 {courses.map((course) => displayCourse(course))}
               </div>
             )}

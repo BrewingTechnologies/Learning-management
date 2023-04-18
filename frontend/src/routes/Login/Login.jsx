@@ -47,7 +47,7 @@ const Login = () => {
           </Col>
         </Row>
       </Container>
-      <Form className='d-flex flex-column justify-content-center align-items-center vh-100' >
+      <Form onSubmit={loginHandler} className='d-flex flex-column justify-content-center align-items-center vh-100' >
         <h3 className='mb-5' >Please Login here</h3>
         <Form.Group className="mb-3 w-25" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>

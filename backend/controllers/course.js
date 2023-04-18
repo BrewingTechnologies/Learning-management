@@ -24,7 +24,13 @@ const courseDetails = async (req) => {
   try {
     return await CoursesModel.findOne({ _id: req.params.courseId }).populate(
       'user'
-    )
+    ).populate({
+      path: 'faq',
+      populate: {
+        path: 'userId',
+        model: 'student'
+      }
+    })
   } catch (error) {
     console.log(error.message)
     return Boom.badRequest(error.message)
@@ -94,9 +100,8 @@ const courseWishList = async (req) => {
 const studentEnrolledCourses = async (req) => {
   try {
     return await CoursesModel.find({
-      enrolledStudent: req.params.userId,
-      isEnrolled: true
-    })
+      enrolledStudent: req.params.userId
+    }).populate('enrolledStudent')
   } catch (error) {
     console.log(error.message)
     return Boom.badRequest(error.message)
@@ -131,9 +136,15 @@ const updateCourseEnrollmentOfStundet = async (req) => {
       return Boom.notFound("Student with this id doesn't exists")
     }
 
+    if (req.query.isEnrolled) {
+      return await CoursesModel.updateOne(
+        { _id: req.params.courseId },
+        { $push: { enrolledStudent: req.params.userId }, isEnrolled: req.query.isEnrolled }
+      )
+    }
     return await CoursesModel.updateOne(
       { _id: req.params.courseId },
-      { enrolledStudent: req.params.userId, isEnrolled: req.query.isEnrolled }
+      { $pull: { enrolledStudent: req.params.userId }, isEnrolled: req.query.isEnrolled }
     )
   } catch (error) {
     console.log(error.message)
@@ -143,7 +154,7 @@ const updateCourseEnrollmentOfStundet = async (req) => {
 
 const addFAQ = async (req) => {
   try {
-    return await CoursesModel.updateOne(
+    return await CoursesModel.findOneAndUpdate(
       { _id: req.params.courseId },
       { $push: { faq: req.payload.data } }
     )
