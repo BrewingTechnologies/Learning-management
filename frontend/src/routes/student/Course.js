@@ -90,7 +90,9 @@ const Course = (props) => {
                       id='uploadFiles'
                       onChange={(e) => handleFileUpload(e, true)}
                     />
-                    <Button style={{ "pointer-events": "none" }}>
+                    <Button
+                      style={{ "pointer-events": "none", margin: "0px 8px" }}
+                    >
                       Upload Files
                     </Button>
                   </label>
@@ -102,7 +104,9 @@ const Course = (props) => {
                       id='thumbnail'
                       onChange={(e) => handleFileUpload(e, false)}
                     />
-                    <Button style={{ "pointer-events": "none" }}>
+                    <Button
+                      style={{ "pointer-events": "none", margin: "0px 8px" }}
+                    >
                       Upload Thumbnail
                     </Button>
                   </label>
