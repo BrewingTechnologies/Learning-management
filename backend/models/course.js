@@ -11,10 +11,9 @@ const courseSchema = new Schema(
     thumbnail: String,
     bookmark: Boolean,
     duration: String,
-    isEnrolled: Boolean,
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'student' },
     file: String,
-    enrolledStudent: [{ type: mongoose.Schema.Types.ObjectId, ref: 'student' }],
+    enrolledStudents: [{ isEnrolled: Boolean, userId: { type: mongoose.Schema.Types.ObjectId, ref: 'student' } }],
     faq: [
       {
         text: String,

@@ -139,12 +139,12 @@ const updateCourseEnrollmentOfStundet = async (req) => {
     if (req.query.isEnrolled) {
       return await CoursesModel.updateOne(
         { _id: req.params.courseId },
-        { $push: { enrolledStudent: req.params.userId }, isEnrolled: req.query.isEnrolled }
+        { $push: { enrolledStudents: { userId: req.params.userId, isEnrolled: true } } }
       )
     }
     return await CoursesModel.updateOne(
       { _id: req.params.courseId },
-      { $pull: { enrolledStudent: req.params.userId }, isEnrolled: req.query.isEnrolled }
+      { $pull: { enrolledStudents: { userId: req.params.userId } } }
     )
   } catch (error) {
     console.log(error.message)
