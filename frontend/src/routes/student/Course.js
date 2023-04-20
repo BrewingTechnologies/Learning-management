@@ -22,7 +22,10 @@ const Course = (props) => {
 
   const fetchCourseDetails = async () => {
     const { status, data } = await getCourseDetails(courseId);
-    setCourseInfo(data);
+    const isEnrolled = !!(data.enrolledStudents || []).find(
+      (x) => x.isEnrolled && x.userId === userInfo._id
+    );
+    setCourseInfo({ ...data, isEnrolled });
   };
 
   useEffect(() => {

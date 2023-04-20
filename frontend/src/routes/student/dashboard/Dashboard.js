@@ -42,6 +42,10 @@ const Dashboard = (props) => {
         dataa = data;
       }
     }
+    dataa.sort(
+      (a, b) =>
+        a.enrolledStudents?.length || 0 > a.enrolledStudents?.length || 0
+    );
     setCourses([...dataa]);
     setLoading(false);
   };
@@ -103,6 +107,11 @@ const Dashboard = (props) => {
             <Card.Text>Description : {course?.description}</Card.Text>
             <Card.Text>Instructor: {course?.user?.firstName}</Card.Text>
             <Card.Text>Category: {course?.category}</Card.Text>
+            {Roles.student !== userInfo.role && (
+              <Card.Text>
+                Enrolled: {course.enrolledStudents?.length || 0}
+              </Card.Text>
+            )}
             <div className='text-center d-flex justify-content-around'>
               <Button
                 variant='success'
