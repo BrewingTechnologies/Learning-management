@@ -83,11 +83,12 @@ const Course = (props) => {
         {courseInfo?._id && (
           <Row>
             <Col className='d-flex justify-content-end mt-3'>
-              {Roles.student === userInfo.role ? (
+              {Roles.student === userInfo.role && (
                 <Button onClick={enrollHandler} variant='outline-success'>
                   {courseInfo.isEnrolled ? "Withdraw" : "Enroll"}
                 </Button>
-              ) : (
+              )}
+              {[Roles.admin, Roles.instructor].includes(userInfo.role) && (
                 <>
                   <label htmlFor='uploadFiles'>
                     <input
@@ -153,7 +154,8 @@ const Course = (props) => {
             )}
           </Col>
           {courseInfo?._id &&
-            (courseInfo.isEnrolled || Roles.student !== userInfo.role) && (
+            (courseInfo.isEnrolled ||
+              [Roles.admin, Roles.instructor].includes(userInfo.role)) && (
               <Col className='shadow-lg m-3 p-3'>
                 <h3>FAQ</h3>
                 {courseInfo.faq.map((que) => (

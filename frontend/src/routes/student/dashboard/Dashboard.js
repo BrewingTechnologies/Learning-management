@@ -107,7 +107,7 @@ const Dashboard = (props) => {
             <Card.Text>Description : {course?.description}</Card.Text>
             <Card.Text>Instructor: {course?.user?.firstName}</Card.Text>
             <Card.Text>Category: {course?.category}</Card.Text>
-            {Roles.student !== userInfo.role && (
+            {[Roles.admin, Roles.instructor].includes(userInfo.role) && (
               <Card.Text>
                 Enrolled: {course.enrolledStudents?.length || 0}
               </Card.Text>

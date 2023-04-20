@@ -22,6 +22,23 @@ export const loginUser = (userData) => {
   });
 };
 
+export const guestLogin = () => {
+  return new Promise((resolve) => {
+    axios
+      .get(`${API_URL}/users/guest-login`)
+      .then((res) => {
+        handleLogin({ ...res.data, authToken: res.data.token });
+        resolve({ status: true, data: res.data });
+      })
+      .catch((err) => {
+        resolve({
+          status: false,
+          data: err.response.data?.message || err.message,
+        });
+      });
+  });
+};
+
 export const fetchAllCourses = () => {
   return new Promise((resolve) => {
     axios
@@ -199,6 +216,22 @@ export const uploadFile = ({ courseId, isFile, file }) => {
         `${API_URL}/courses/${courseId}/thumbnailOrFile?file=${isFile}`,
         file
       )
+      .then((res) => {
+        resolve({ status: true, data: res.data });
+      })
+      .catch((err) => {
+        resolve({
+          status: false,
+          data: err.response.data?.message || err.message,
+        });
+      });
+  });
+};
+
+export const fetchInstructors = () => {
+  return new Promise((resolve) => {
+    axios
+      .get(`${API_URL}/users`)
       .then((res) => {
         resolve({ status: true, data: res.data });
       })

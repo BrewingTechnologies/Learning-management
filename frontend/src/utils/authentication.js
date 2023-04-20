@@ -80,8 +80,6 @@ export function handleLogin(authenticationResult = {}) {
   const { authToken } = authenticationResult || {};
   localStorage.setItem("authorization", authToken);
   localStorage.setItem("data", JSON.stringify(authenticationResult));
-  setCommonHeaders({
-    authorization: authToken,
-  });
+  setCommonHeaders({ authorization: authToken });
   decodeUserInfo(authenticationResult);
 }

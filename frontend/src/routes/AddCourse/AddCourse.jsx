@@ -1,24 +1,39 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
-import { addCourse } from '../../store/apis'
+import { addCourse, fetchInstructors } from '../../store/apis'
 import {  toast } from 'react-toastify'
 import { userInfo } from '../../utils/authentication'
+import Roles from '../../config/Roles'
 
 const AddCourse = (props) => {
 
   const { handlerClose } = props
-
+  const [instructors,setInstructors]= useState([userInfo]);
   const [course, setCourse] = useState({
     name: '',
     category: '',
     description: '',
     price: '',
-    user: '',
+    user: userInfo.role===Roles.instructor? userInfo._id :'',
     duration: '',
   })
 
+  const fetchInstructorsList=async ()=>{
+    if(Roles.instructor!==userInfo.role){
+      const {status,data} = await fetchInstructors();
+      if(status){
+        const users = data.filter(x=>x.role===Roles.instructor);
+        setInstructors([...users]);
+      }
+    }
+  }
+
+  useEffect(()=>{
+    fetchInstructorsList()
+  },[])
+
   const submitHandler = async () => {
-    const { status, data } = await addCourse({ ...course, user: userInfo?._id });
+    const { status, data } = await addCourse(course);
     if (status) {
       toast.success('Course added successfully..!')
       handlerClose(false, data);
@@ -38,6 +53,11 @@ const AddCourse = (props) => {
 
   const closeHandler = () => {
     handlerClose(false);
+  }
+
+  const handleChange=(e)=>{
+    if(course.user!==e.target.value){
+    setCourse({...course,user: e.target.value})}
   }
 
 
@@ -68,6 +88,14 @@ const AddCourse = (props) => {
         <Form.Control onChange={changeHandler} name='duration' type="text" value={course.duration} placeholder="Enter duration" />
       </Form.Group>
 
+      <Form.Group className="mb-3" controlId="instructor">
+        <Form.Label>Instructor</Form.Label>
+        <Form.Select onChange={handleChange} name='role' value={course.user} >
+            <option >Select Instructor</option>
+            {instructors.map(x=><option value={x._id} key={x._id}>{x.firstName+" "+x.lastName}</option>)}
+          </Form.Select>
+      </Form.Group>
+
       <div>
         <Button variant="outline-success" onClick={submitHandler}>
           Add
@@ -86,7 +114,8 @@ const styles = {
   justifyContent: 'center',
   alignItems: 'center',
   alignContent: 'center',
-  height: '550px',
+  height: 'auto',
+  padding: '16px',
   width: '800px',
   borderRadius: '20px',
   backgroundColor: '#461057',

@@ -2,7 +2,7 @@ import React, { useState, } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Link, useHistory } from 'react-router-dom';
-import { loginUser } from '../../store/apis';
+import { guestLogin, loginUser } from '../../store/apis';
 import ResetPassword from '../ResetPassword/ResetPassword';
 import { Col, Container, Row } from 'react-bootstrap';
 import Logo from '../../logo.png'
@@ -27,6 +27,15 @@ const Login = () => {
    }else{
     toast.error(data)
    }
+  }
+
+  const handleGuestLogin=async ()=>{
+    const {status,data}=await guestLogin();
+    if(status){
+      history.push('/app')
+    }else{
+      toast.error(data)
+    }
   }
 
   const handleChange = (e) => {
@@ -68,6 +77,7 @@ const Login = () => {
           <p className='mt-3 text-center' >Fogot password..? <Link to='/resetpassword/:role' > Click here </Link> </p>
           {/* <p className='mt-3 text-center'>New member..? please  here</p> */}
         </div>
+        <div className='mt-3 text-center' style={{color:'blue',textDecoration:'underline'}} onClick={handleGuestLogin}>Login as Guest</div>
       </Form>
       <ToastContainer/>
     </>
